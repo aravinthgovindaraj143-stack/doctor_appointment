@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | MedCare</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">+</span>
+                <span>MedCare</span>
+            </a>
+            <nav class="nav-links">
+                <a href="/">Doctor</a>
+                <a href="{% url 'about' %}">About</a>
+                <a href="{% url 'contact' %}" class="active">Contact</a>
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'profile' %}">My Profile</a>
+                    <a href="{% url 'my_appointments' %}">My Appointments</a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'register' %}">Register</a>
+                {% endif %}
+            </nav>
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'book_appointment' %}" class="nav-button">Book Appointment</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav-button">Login</a>
+                {% endif %}
+        </div>
+    </header>
+
+    <section class="contact-hero">
+        <div class="contact-hero-content">
+            <span class="section-label">CONTACT US</span>
+            <h1>Let’s make your next step in care simple.</h1>
+            <p>Our patient support team can help with appointments, treatment guidance, and general enquiries.</p>
+        </div>
+    </section>
+
+    <section class="contact-main">
+        <div class="contact-container">
+            <div class="contact-card contact-form-card">
+                <span class="section-label">PATIENT SUPPORT</span>
+                <h2>How can we help?</h2>
+                <p class="contact-card-intro">Send us a message and our team will get back to you during clinic hours.</p>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="contact-message contact-message-{{ message.tags|default:'success' }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="contact-form-row">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" placeholder="Your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="text" id="phone" name="phone" placeholder="Your contact number">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea id="message" name="message" rows="5" placeholder="Tell us how we can assist you" required></textarea>
+                    </div>
+                    <button type="submit" class="primary-button auth-button">Send Message</button>
+                </form>
+            </div>
+
+            <div class="contact-card contact-info-card">
+                <span class="section-label">MEDCARE CLINIC</span>
+                <h2>Get in touch</h2>
+                <p class="contact-card-intro">Reach us directly for help with your appointment or visit.</p>
+                <div class="contact-item">
+                    <span class="contact-item-icon">TEL</span>
+                    <div><strong>Phone</strong><span>+44 20 7946 0958</span></div>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-item-icon">@</span>
+                    <div><strong>Email</strong><span>hello@medcareclinic.com</span></div>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-item-icon">LOC</span>
+                    <div><strong>Address</strong><span>24 Health Avenue, London, UK</span></div>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-item-icon">TIME</span>
+                    <div><strong>Clinic hours</strong><span>Mon - Sat: 8:00 AM - 8:00 PM</span></div>
+                </div>
+                <div class="contact-response-note">Typical response time: within one working day.</div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

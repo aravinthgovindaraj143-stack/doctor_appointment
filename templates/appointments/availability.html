@@ -1,0 +1,1033 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Doctor Availability | {{ doctor.full_name }}</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f7f9fc;
+            color: #183153;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            height: 80px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #12b8b0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 25px;
+        }
+
+        .brand-text h2 {
+            color: #14508c;
+            font-size: 23px;
+        }
+
+        .brand-text p {
+            color: #65788e;
+            font-size: 13px;
+            margin-top: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #24364b;
+            padding: 13px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            background: #eaf4ff;
+            color: #1474c4;
+        }
+
+        .nav-links .active {
+            background: #277bc4;
+            color: white;
+        }
+
+        /* HERO */
+
+        .hero {
+            background: linear-gradient(
+                120deg,
+                #e7f6ff,
+                #dff4fb
+            );
+
+            padding: 40px 5%;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: 250px 1fr 1.2fr;
+
+            gap: 35px;
+            align-items: center;
+        }
+
+        .doctor-photo {
+            width: 250px;
+            height: 265px;
+            object-fit: cover;
+            border-radius: 12px;
+            background: #dce8f1;
+        }
+
+        .doctor-info h1 {
+            font-size: 40px;
+            color: #102f62;
+            margin-bottom: 10px;
+        }
+
+        .doctor-info h3 {
+            font-size: 21px;
+            color: #263f5c;
+            margin-bottom: 18px;
+        }
+
+        .doctor-info p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #3d5268;
+        }
+
+        .doctor-count {
+            font-weight: bold;
+            color: #193d65 !important;
+            margin-bottom: 25px;
+        }
+
+        .doctor-line {
+            width: 100%;
+            height: 1px;
+            background: #c9dce9;
+            margin-bottom: 25px;
+        }
+
+        /* TODAY CARD */
+
+        .today-card {
+            background: #f7fffb;
+            border: 1px solid #d2eadf;
+            border-radius: 12px;
+            padding: 25px;
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .today-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            color: #159567;
+            font-size: 21px;
+            font-weight: bold;
+
+            margin-bottom: 18px;
+        }
+
+        .green-dot {
+            width: 20px;
+            height: 20px;
+            background: #18ae72;
+            border-radius: 50%;
+        }
+
+        .today-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+
+            margin: 14px 0;
+
+            font-size: 17px;
+        }
+
+        .today-info i {
+            width: 25px;
+            color: #264a70;
+            text-align: center;
+        }
+
+        .today-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .book-btn {
+            flex: 1;
+            border: none;
+            background: #13a968;
+            color: white;
+
+            padding: 14px 18px;
+            border-radius: 8px;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .book-btn:hover {
+            background: #078b55;
+        }
+
+        .location-btn {
+            border: none;
+            background: #277bc4;
+            color: white;
+
+            padding: 14px 18px;
+            border-radius: 8px;
+
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* MAIN */
+
+        .main {
+            max-width: 1200px;
+            margin: auto;
+            padding: 40px 20px 70px;
+        }
+
+        .section-title {
+            margin-bottom: 30px;
+        }
+
+        .section-title h2 {
+            font-size: 32px;
+            color: #102f62;
+            margin-bottom: 8px;
+        }
+
+        .section-title p {
+            font-size: 17px;
+            color: #617286;
+        }
+
+        /* HOSPITAL GRID */
+
+        .hospital-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 20px;
+        }
+
+        .hospital-card {
+            background: white;
+            border-radius: 10px;
+
+            border: 1px solid #d9e5ef;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 4px 14px rgba(0,0,0,0.06);
+
+            transition: 0.25s;
+        }
+
+        .hospital-card:hover {
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 8px 22px rgba(0,0,0,0.12);
+        }
+
+        .hospital-header {
+            background: #eaf5ff;
+            padding: 20px;
+
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .hospital-header i {
+            font-size: 30px;
+            color: #287bc2;
+        }
+
+        .hospital-header h3 {
+            font-size: 19px;
+            color: #183b66;
+        }
+
+        .hospital-content {
+            padding: 20px;
+        }
+
+        .detail {
+            display: flex;
+            gap: 12px;
+
+            margin-bottom: 15px;
+
+            color: #3d5268;
+            line-height: 1.5;
+        }
+
+        .detail i {
+            color: #287bc2;
+            width: 18px;
+            margin-top: 3px;
+        }
+
+        .available {
+            display: inline-block;
+
+            background: #d9f7e9;
+            color: #079457;
+
+            padding: 7px 16px;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+            font-weight: bold;
+
+            margin-bottom: 18px;
+        }
+
+        .card-divider {
+            height: 1px;
+            background: #e1e7ed;
+            margin-bottom: 18px;
+        }
+
+        .details-btn {
+            display: block;
+            text-align: center;
+
+            border: 1px solid #73a9cf;
+
+            color: #2672ac;
+
+            padding: 10px;
+
+            border-radius: 6px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            margin-bottom: 10px;
+        }
+
+        .details-btn:hover {
+            background: #edf7ff;
+        }
+
+        .card-book-btn {
+            display: block;
+
+            background: #287bc4;
+            color: white;
+
+            text-align: center;
+
+            padding: 12px;
+
+            border-radius: 6px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        .card-book-btn:hover {
+            background: #1767ad;
+        }
+
+        /* INFO BOX */
+
+        .info-box {
+            margin-top: 30px;
+
+            background: #eaf5ff;
+
+            border-radius: 10px;
+
+            padding: 25px 35px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 30px;
+        }
+
+        .info-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .info-icon {
+            width: 50px;
+            height: 50px;
+
+            border-radius: 50%;
+
+            background: #287bc4;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 25px;
+        }
+
+        .info-left h3 {
+            margin-bottom: 5px;
+            color: #173b67;
+        }
+
+        .info-left p {
+            color: #526a80;
+        }
+
+        .appointment-page-btn {
+            background: #287bc4;
+            color: white;
+
+            padding: 14px 28px;
+
+            border-radius: 7px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+        /* NO AVAILABILITY */
+
+        .no-slots {
+            background: white;
+            border: 1px solid #dce5ed;
+
+            padding: 40px;
+
+            text-align: center;
+
+            border-radius: 10px;
+
+            color: #65788e;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #233f64;
+            color: white;
+
+            padding: 25px 5%;
+
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 14px;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width: 1000px) {
+
+            .hero-container {
+                grid-template-columns: 220px 1fr;
+            }
+
+            .today-card {
+                grid-column: 1 / -1;
+            }
+
+            .hospital-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media(max-width: 700px) {
+
+            .navbar {
+                height: auto;
+                padding: 15px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .doctor-photo {
+                margin: auto;
+            }
+
+            .doctor-info h1 {
+                font-size: 30px;
+            }
+
+            .hospital-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-box {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .today-buttons {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+
+        <div class="brand-text">
+
+            <h2>Dr. Manish Kiran</h2>
+
+            <p>Care for a Healthier Tomorrow</p>
+
+        </div>
+
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="{% url 'doctor_availability' %}"
+           class="active">
+            Doctor Availability
+        </a>
+
+        <a href="{% url 'book_appointment' %}">
+            Appointment
+        </a>
+
+        <a href="/about/">
+            About
+        </a>
+
+        <a href="#">
+            Contact
+        </a>
+
+        {% if request.user.is_authenticated %}
+
+            <a href="#">
+                <i class="fa-solid fa-user"></i>
+                {{ request.user.first_name|default:request.user.username }}
+            </a>
+
+        {% else %}
+
+            <a href="#">
+                <i class="fa-solid fa-user"></i>
+                Login
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</nav>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="hero-container">
+
+
+        <!-- DOCTOR IMAGE -->
+
+        <div>
+
+            {% if doctor.profile_image %}
+
+                <img
+                    src="{{ doctor.profile_image.url }}"
+                    class="doctor-photo"
+                    alt="{{ doctor.full_name }}"
+                >
+
+            {% else %}
+
+                <div
+                    class="doctor-photo"
+                    style="
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        font-size:70px;
+                        color:#6c8499;
+                    "
+                >
+                    <i class="fa-solid fa-user-doctor"></i>
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- DOCTOR INFORMATION -->
+
+        <div class="doctor-info">
+
+            <h1>
+                {{ doctor.full_name }}
+            </h1>
+
+            <h3>
+                {{ doctor.designation }}
+            </h3>
+
+            <p class="doctor-count">
+
+                Consultant at
+                {{ doctor.hospitals.count }}
+                Different Hospitals
+
+            </p>
+
+            <div class="doctor-line"></div>
+
+            <p>
+                Check where {{ doctor.full_name }}
+                is available and book your appointment easily.
+            </p>
+
+        </div>
+
+
+        <!-- AVAILABLE TODAY -->
+
+        <div class="today-card">
+
+            {% if today_slots %}
+
+                {% with slot=today_slots.0 %}
+
+                    <div class="today-header">
+
+                        <span class="green-dot"></span>
+
+                        AVAILABLE TODAY
+
+                    </div>
+
+                    <div class="today-info">
+
+                        <i class="fa-solid fa-hospital"></i>
+
+                        <span>
+                            {{ slot.hospital.name }}
+                        </span>
+
+                    </div>
+
+                    <div class="today-info">
+
+                        <i class="fa-solid fa-clock"></i>
+
+                        <span>
+                            {{ slot.start_time|time:"g:i A" }}
+                            –
+                            {{ slot.end_time|time:"g:i A" }}
+                        </span>
+
+                    </div>
+
+                    <div class="today-info">
+
+                        <i class="fa-solid fa-location-dot"></i>
+
+                        <span>
+                            {{ slot.hospital.city }}
+                        </span>
+
+                    </div>
+
+                    <div class="today-buttons">
+
+                        <a
+                            href="{% url 'book_appointment' %}"
+                            class="book-btn"
+                        >
+                            <i class="fa-solid fa-calendar-check"></i>
+                            Book Appointment
+                        </a>
+
+                        <a
+                            href="#schedule"
+                            class="location-btn"
+                        >
+                            <i class="fa-solid fa-location-dot"></i>
+                            View Schedule
+                        </a>
+
+                    </div>
+
+                {% endwith %}
+
+            {% else %}
+
+                <div class="today-header"
+                     style="color:#65788e;">
+
+                    <span
+                        class="green-dot"
+                        style="background:#9aa8b5;"
+                    ></span>
+
+                    NOT AVAILABLE TODAY
+
+                </div>
+
+                <p style="line-height:1.6;color:#65788e;">
+                    There are no consultation slots available
+                    for today.
+                </p>
+
+                <div style="margin-top:20px;">
+
+                    <a
+                        href="#schedule"
+                        class="location-btn"
+                    >
+                        View Upcoming Availability
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- MAIN -->
+
+<main class="main" id="schedule">
+
+
+    <div class="section-title">
+
+        <h2>
+            Doctor Availability Schedule
+        </h2>
+
+        <p>
+            Find out which hospital {{ doctor.full_name }}
+            will be visiting and the available consultation time.
+        </p>
+
+    </div>
+
+
+    {% if slots %}
+
+        <div class="hospital-grid">
+
+            {% for slot in slots %}
+
+                <div class="hospital-card">
+
+
+                    <div class="hospital-header">
+
+                        <i class="fa-solid fa-hospital"></i>
+
+                        <h3>
+                            {{ slot.hospital.name }}
+                        </h3>
+
+                    </div>
+
+
+                    <div class="hospital-content">
+
+
+                        <div class="detail">
+
+                            <i class="fa-solid fa-calendar"></i>
+
+                            <span>
+
+                                <strong>
+                                    {{ slot.date|date:"l" }}
+                                </strong>
+
+                                <br>
+
+                                {{ slot.date|date:"d M Y" }}
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail">
+
+                            <i class="fa-solid fa-clock"></i>
+
+                            <span>
+
+                                {{ slot.start_time|time:"g:i A" }}
+
+                                –
+
+                                {{ slot.end_time|time:"g:i A" }}
+
+                            </span>
+
+                        </div>
+
+
+                        <span class="available">
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                            Available
+
+                        </span>
+
+
+                        <div class="card-divider"></div>
+
+
+                        <div class="detail">
+
+                            <i class="fa-solid fa-location-dot"></i>
+
+                            <span>
+
+                                {{ slot.hospital.address }}
+
+                                <br>
+
+                                {{ slot.hospital.city }}
+
+                            </span>
+
+                        </div>
+
+
+                        <a
+                            href="{% url 'book_appointment' %}?slot={{ slot.id }}"
+                            class="details-btn"
+                        >
+
+                            <i class="fa-solid fa-eye"></i>
+
+                            View Details
+
+                        </a>
+
+
+                        <a
+                            href="{% url 'book_appointment' %}?slot={{ slot.id }}"
+                            class="card-book-btn"
+                        >
+
+                            <i class="fa-solid fa-calendar-check"></i>
+
+                            Book Appointment
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="no-slots">
+
+            <i
+                class="fa-solid fa-calendar-xmark"
+                style="
+                    font-size:45px;
+                    margin-bottom:15px;
+                "
+            ></i>
+
+            <h3>
+                No Availability Currently
+            </h3>
+
+            <p style="margin-top:10px;">
+                The doctor has not published any available
+                consultation slots yet.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- INFO -->
+
+    <div class="info-box">
+
+        <div class="info-left">
+
+            <div class="info-icon">
+                <i class="fa-solid fa-info"></i>
+            </div>
+
+            <div>
+
+                <h3>
+                    Already know the hospital?
+                </h3>
+
+                <p>
+                    You can directly book your appointment
+                    using our appointment system.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="{% url 'book_appointment' %}"
+            class="appointment-page-btn"
+        >
+
+            <i class="fa-solid fa-calendar-check"></i>
+
+            Go to Appointment Page
+
+        </a>
+
+    </div>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <p>
+        © 2026 {{ doctor.full_name }}.
+        All rights reserved.
+    </p>
+
+    <p style="margin-top:8px;">
+        ♡ Your Health &nbsp; | &nbsp; Our Priority
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

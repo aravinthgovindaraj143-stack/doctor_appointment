@@ -1,0 +1,1754 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Book Appointment | {{ doctor.full_name }}
+    </title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f5f8fb;
+
+            color: #183153;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .navbar {
+
+            height: 78px;
+
+            background: #ffffff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 5%;
+
+            box-shadow:
+                0 2px 12px rgba(0, 0, 0, 0.08);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+        }
+
+
+        .brand-icon {
+
+            width: 48px;
+
+            height: 48px;
+
+            border-radius: 50%;
+
+            background: #12b8b0;
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 24px;
+
+        }
+
+
+        .brand-text h2 {
+
+            color: #14508c;
+
+            font-size: 22px;
+
+            margin-bottom: 2px;
+
+        }
+
+
+        .brand-text p {
+
+            color: #718096;
+
+            font-size: 12px;
+
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+        }
+
+
+        .nav-links a {
+
+            text-decoration: none;
+
+            color: #26384d;
+
+            padding: 12px 16px;
+
+            border-radius: 7px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+
+        }
+
+
+        .nav-links a:hover {
+
+            background: #edf6ff;
+
+            color: #2077bd;
+
+        }
+
+
+        .nav-links .active {
+
+            background: #287bc4;
+
+            color: white;
+
+        }
+
+
+        /* =====================================================
+           PAGE HEADER
+        ===================================================== */
+
+        .page-header {
+
+            background:
+                linear-gradient(
+                    120deg,
+                    #e6f5ff,
+                    #e7f8fa
+                );
+
+            padding: 42px 20px;
+
+            text-align: center;
+
+            border-bottom: 1px solid #d9e7ef;
+
+        }
+
+
+        .page-header h1 {
+
+            color: #102f62;
+
+            font-size: 36px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .page-header p {
+
+            color: #5d7084;
+
+            font-size: 16px;
+
+        }
+
+
+        /* =====================================================
+           MAIN CONTAINER
+        ===================================================== */
+
+        .container {
+
+            max-width: 1150px;
+
+            margin: 35px auto 70px;
+
+            padding: 0 20px;
+
+        }
+
+
+        /* =====================================================
+           ALERT MESSAGES
+        ===================================================== */
+
+        .messages {
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .alert {
+
+            padding: 14px 18px;
+
+            border-radius: 8px;
+
+            margin-bottom: 10px;
+
+            background: #fff1f1;
+
+            border: 1px solid #f0bcbc;
+
+            color: #a33a3a;
+
+        }
+
+
+        /* =====================================================
+           DOCTOR CARD
+        ===================================================== */
+
+        .doctor-card {
+
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 25px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 22px;
+
+            margin-bottom: 25px;
+
+            border: 1px solid #dce6ee;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.06);
+
+        }
+
+
+        .doctor-image {
+
+            width: 105px;
+
+            height: 105px;
+
+            border-radius: 12px;
+
+            object-fit: cover;
+
+            background: #e5edf4;
+
+        }
+
+
+        .doctor-placeholder {
+
+            width: 105px;
+
+            height: 105px;
+
+            border-radius: 12px;
+
+            background: #e5edf4;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #7290a8;
+
+            font-size: 45px;
+
+        }
+
+
+        .doctor-details h2 {
+
+            color: #102f62;
+
+            font-size: 25px;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .doctor-details p {
+
+            color: #5f7185;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .doctor-details .designation {
+
+            color: #2777b8;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =====================================================
+           BOOKING FORM
+        ===================================================== */
+
+        .booking-card {
+
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 35px;
+
+            border: 1px solid #dce6ee;
+
+            box-shadow:
+                0 5px 22px rgba(0, 0, 0, 0.06);
+
+        }
+
+
+        /* =====================================================
+           FORM SECTION
+        ===================================================== */
+
+        .form-section {
+
+            margin-bottom: 32px;
+
+        }
+
+
+        .section-heading {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .section-number {
+
+            width: 32px;
+
+            height: 32px;
+
+            border-radius: 8px;
+
+            background: #dff3ed;
+
+            color: #15865d;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: bold;
+
+        }
+
+
+        .section-heading h3 {
+
+            color: #213a55;
+
+            font-size: 21px;
+
+        }
+
+
+        /* =====================================================
+           FORM GRID
+        ===================================================== */
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 22px;
+
+        }
+
+
+        .form-group {
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+
+        .form-group.full {
+
+            grid-column: 1 / -1;
+
+        }
+
+
+        label {
+
+            font-weight: 600;
+
+            color: #314a64;
+
+            margin-bottom: 8px;
+
+            font-size: 14px;
+
+        }
+
+
+        input,
+        select,
+        textarea {
+
+            width: 100%;
+
+            border: 1px solid #ccd9e3;
+
+            border-radius: 9px;
+
+            padding: 14px 15px;
+
+            font-size: 15px;
+
+            color: #26384d;
+
+            background: white;
+
+            outline: none;
+
+            transition: 0.2s;
+
+        }
+
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+
+            border-color: #287bc4;
+
+            box-shadow:
+                0 0 0 3px rgba(
+                    40,
+                    123,
+                    196,
+                    0.10
+                );
+
+        }
+
+
+        input[readonly] {
+
+            background: #f2f6f9;
+
+            color: #627589;
+
+        }
+
+
+        textarea {
+
+            min-height: 140px;
+
+            resize: vertical;
+
+        }
+
+
+        /* =====================================================
+           SLOT SELECT
+        ===================================================== */
+
+        .slot-help {
+
+            margin-top: 8px;
+
+            color: #75869a;
+
+            font-size: 13px;
+
+        }
+
+
+        .no-slots-message {
+
+            display: none;
+
+            margin-top: 10px;
+
+            padding: 12px 15px;
+
+            background: #fff6e5;
+
+            border: 1px solid #f0d39a;
+
+            border-radius: 7px;
+
+            color: #89621f;
+
+            font-size: 14px;
+
+        }
+
+
+        /* =====================================================
+           SELECTED SLOT CARD
+        ===================================================== */
+
+        .selected-slot-info {
+
+            display: none;
+
+            margin-top: 15px;
+
+            background: #eefaf5;
+
+            border: 1px solid #c6ead9;
+
+            border-radius: 9px;
+
+            padding: 15px;
+
+        }
+
+
+        .selected-slot-info h4 {
+
+            color: #14865c;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .selected-slot-info p {
+
+            color: #405b6d;
+
+            line-height: 1.6;
+
+        }
+
+
+        /* =====================================================
+           DIVIDER
+        ===================================================== */
+
+        .divider {
+
+            height: 1px;
+
+            background: #e1e8ee;
+
+            margin: 10px 0 28px;
+
+        }
+
+
+        /* =====================================================
+           BUTTON
+        ===================================================== */
+
+        .submit-btn {
+
+            width: 100%;
+
+            border: none;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #159d71,
+                    #168eb0
+                );
+
+            color: white;
+
+            padding: 17px;
+
+            border-radius: 9px;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+
+        }
+
+
+        .submit-btn:hover {
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 7px 18px rgba(
+                    21,
+                    157,
+                    113,
+                    0.25
+                );
+
+        }
+
+
+        .submit-btn:disabled {
+
+            background: #aab8c3;
+
+            cursor: not-allowed;
+
+            transform: none;
+
+            box-shadow: none;
+
+        }
+
+
+        /* =====================================================
+           DISCLAIMER
+        ===================================================== */
+
+        .disclaimer {
+
+            text-align: center;
+
+            margin-top: 14px;
+
+            color: #7b8b9b;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+        }
+
+
+        /* =====================================================
+           INFO CARD
+        ===================================================== */
+
+        .info-card {
+
+            margin-top: 20px;
+
+            background: #edf7ff;
+
+            border: 1px solid #d1e7f6;
+
+            border-radius: 10px;
+
+            padding: 18px;
+
+            display: flex;
+
+            gap: 15px;
+
+            align-items: flex-start;
+
+        }
+
+
+        .info-card i {
+
+            color: #287bc4;
+
+            font-size: 22px;
+
+            margin-top: 2px;
+
+        }
+
+
+        .info-card p {
+
+            color: #566d82;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        footer {
+
+            background: #233f64;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 24px 20px;
+
+        }
+
+
+        footer p {
+
+            font-size: 13px;
+
+            margin: 4px;
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media(max-width: 850px) {
+
+            .navbar {
+
+                height: auto;
+
+                padding: 15px 20px;
+
+                flex-direction: column;
+
+                gap: 15px;
+
+            }
+
+
+            .nav-links {
+
+                flex-wrap: wrap;
+
+                justify-content: center;
+
+            }
+
+
+            .doctor-card {
+
+                flex-direction: column;
+
+                text-align: center;
+
+            }
+
+
+            .form-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .form-group.full {
+
+                grid-column: auto;
+
+            }
+
+        }
+
+
+        @media(max-width: 550px) {
+
+            .page-header h1 {
+
+                font-size: 28px;
+
+            }
+
+
+            .booking-card {
+
+                padding: 22px;
+
+            }
+
+
+            .nav-links a {
+
+                padding: 9px 10px;
+
+                font-size: 13px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="navbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+
+            <i class="fa-solid fa-heart-pulse"></i>
+
+        </div>
+
+
+        <div class="brand-text">
+
+            <h2>
+                Dr. Manish Kiran
+            </h2>
+
+            <p>
+                Care for a Healthier Tomorrow
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="{% url 'doctor_availability' %}">
+            Doctor Availability
+        </a>
+
+        <a href="{% url 'book_appointment' %}"
+           class="active">
+            Appointment
+        </a>
+
+        <a href="/about/">
+            About
+        </a>
+
+        <a href="#">
+            Contact
+        </a>
+
+
+        {% if request.user.is_authenticated %}
+
+            <a href="#">
+
+                <i class="fa-solid fa-user"></i>
+
+                {{ request.user.first_name|default:request.user.username }}
+
+            </a>
+
+        {% else %}
+
+            <a href="#">
+
+                <i class="fa-solid fa-user"></i>
+
+                Login
+
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</nav>
+
+
+<!-- =====================================================
+     PAGE HEADER
+===================================================== -->
+
+<section class="page-header">
+
+    <h1>
+        Book an Appointment
+    </h1>
+
+    <p>
+        Select your preferred hospital and an available
+        consultation time.
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="container">
+
+
+    <!-- =================================================
+         MESSAGES
+    ================================================== -->
+
+    {% if messages %}
+
+        <div class="messages">
+
+            {% for message in messages %}
+
+                <div class="alert">
+
+                    <i class="fa-solid fa-circle-exclamation"></i>
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- =================================================
+         DOCTOR CARD
+    ================================================== -->
+
+    {% if doctor %}
+
+        <div class="doctor-card">
+
+
+            {% if doctor.profile_image %}
+
+                <img
+                    src="{{ doctor.profile_image.url }}"
+                    alt="{{ doctor.full_name }}"
+                    class="doctor-image"
+                >
+
+            {% else %}
+
+                <div class="doctor-placeholder">
+
+                    <i class="fa-solid fa-user-doctor"></i>
+
+                </div>
+
+            {% endif %}
+
+
+            <div class="doctor-details">
+
+                <h2>
+                    {{ doctor.full_name }}
+                </h2>
+
+                <p class="designation">
+                    {{ doctor.designation }}
+                </p>
+
+                <p>
+                    Please select an available consultation
+                    slot below.
+                </p>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- =================================================
+         BOOKING FORM
+    ================================================== -->
+
+    <div class="booking-card">
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <!-- =============================================
+                 PATIENT INFORMATION
+            ============================================== -->
+
+            <div class="form-section">
+
+
+                <div class="section-heading">
+
+                    <span class="section-number">
+                        01
+                    </span>
+
+                    <h3>
+                        Patient Information
+                    </h3>
+
+                </div>
+
+
+                <div class="form-grid">
+
+
+                    <!-- NAME -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Patient Name
+                        </label>
+
+                        <input
+                            type="text"
+                            value="{{ request.user.get_full_name|default:request.user.username }}"
+                            readonly
+                        >
+
+                    </div>
+
+
+                    <!-- PHONE -->
+
+                    <div class="form-group">
+
+                        <label for="phone">
+
+                            Phone Number
+                            <span style="color:#d33;">*</span>
+
+                        </label>
+
+                        <input
+                            type="tel"
+                            name="phone"
+                            id="phone"
+                            placeholder="Enter your phone number"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- DOB -->
+
+                    <div class="form-group">
+
+                        <label for="dob">
+                            Date of Birth
+                        </label>
+
+                        <input
+                            type="date"
+                            name="dob"
+                            id="dob"
+                        >
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <div class="divider"></div>
+
+
+            <!-- =============================================
+                 CONSULTATION LOCATION
+            ============================================== -->
+
+            <div class="form-section">
+
+
+                <div class="section-heading">
+
+                    <span class="section-number">
+                        02
+                    </span>
+
+                    <h3>
+                        Consultation Location
+                    </h3>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="hospital">
+
+                        Select Hospital
+
+                        <span style="color:#d33;">
+                            *
+                        </span>
+
+                    </label>
+
+
+                    <select
+                        name="hospital"
+                        id="hospital"
+                        required
+                    >
+
+                        <option value="">
+                            Select hospital
+                        </option>
+
+
+                        {% for hospital in hospitals %}
+
+                            <option
+                                value="{{ hospital.id }}"
+
+                                {% if selected_slot and selected_slot.hospital.id == hospital.id %}
+                                    selected
+                                {% endif %}
+                            >
+
+                                {{ hospital.name }}
+
+                                {% if hospital.city %}
+                                    - {{ hospital.city }}
+                                {% endif %}
+
+                            </option>
+
+                        {% endfor %}
+
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="divider"></div>
+
+
+            <!-- =============================================
+                 CONSULTATION TIME
+            ============================================== -->
+
+            <div class="form-section">
+
+
+                <div class="section-heading">
+
+                    <span class="section-number">
+                        03
+                    </span>
+
+                    <h3>
+                        Consultation Time
+                    </h3>
+
+                </div>
+
+
+                <div class="form-group">
+
+
+                    <label for="slot">
+
+                        Available Slot
+
+                        <span style="color:#d33;">
+                            *
+                        </span>
+
+                    </label>
+
+
+                    <select
+                        name="slot"
+                        id="slot"
+                        required
+                    >
+
+                        <option value="">
+                            Select available date & time
+                        </option>
+
+
+                        {% for slot in slots %}
+
+                            <option
+                                value="{{ slot.id }}"
+
+                                data-hospital="{{ slot.hospital.id }}"
+
+                                {% if selected_slot and selected_slot.id == slot.id %}
+                                    selected
+                                {% endif %}
+                            >
+
+                                {{ slot.date|date:"d M Y" }}
+
+                                |
+
+                                {{ slot.date|date:"l" }}
+
+                                |
+
+                                {{ slot.start_time|time:"g:i A" }}
+
+                                -
+
+                                {{ slot.end_time|time:"g:i A" }}
+
+                            </option>
+
+                        {% endfor %}
+
+
+                    </select>
+
+
+                    <p class="slot-help">
+
+                        Only consultation times added and
+                        published by the hospital/admin are shown.
+
+                    </p>
+
+
+                    <div
+                        class="no-slots-message"
+                        id="no-slots-message"
+                    >
+
+                        <i class="fa-solid fa-calendar-xmark"></i>
+
+                        No consultation slots are currently
+                        available for this hospital.
+
+                    </div>
+
+
+                    <!-- SELECTED SLOT INFORMATION -->
+
+                    <div
+                        class="selected-slot-info"
+                        id="selected-slot-info"
+                    >
+
+                        <h4>
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                            Selected Consultation
+
+                        </h4>
+
+
+                        <p id="selected-slot-text">
+
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <div class="divider"></div>
+
+
+            <!-- =============================================
+                 REASON
+            ============================================== -->
+
+            <div class="form-section">
+
+
+                <div class="section-heading">
+
+                    <span class="section-number">
+                        04
+                    </span>
+
+                    <h3>
+                        Consultation Details
+                    </h3>
+
+                </div>
+
+
+                <div class="form-group">
+
+
+                    <label for="reason">
+
+                        Reason for consultation
+
+                        <span style="color:#d33;">
+                            *
+                        </span>
+
+                    </label>
+
+
+                    <textarea
+                        name="reason"
+                        id="reason"
+                        placeholder="Briefly describe the reason for your consultation"
+                        required
+                    ></textarea>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 SUBMIT
+            ============================================== -->
+
+            <button
+                type="submit"
+                class="submit-btn"
+                id="submit-btn"
+            >
+
+                <i class="fa-solid fa-calendar-check"></i>
+
+                &nbsp;
+
+                Confirm Appointment
+
+                &nbsp;
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
+
+
+            <p class="disclaimer">
+
+                Your appointment request will be submitted
+                for confirmation by the administrator.
+
+            </p>
+
+
+        </form>
+
+
+        <!-- =============================================
+             INFO
+        ============================================== -->
+
+        <div class="info-card">
+
+            <i class="fa-solid fa-circle-info"></i>
+
+            <p>
+
+                <strong>
+                    Important:
+                </strong>
+
+                Appointment availability is controlled by
+                the administrator. Only available consultation
+                slots published by the administrator can be
+                selected and booked.
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <p>
+
+        © 2026 {{ doctor.full_name }}.
+        All rights reserved.
+
+    </p>
+
+
+    <p>
+
+        ♡ Your Health | Our Priority
+
+    </p>
+
+</footer>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+    /* =====================================================
+       GET ELEMENTS
+    ===================================================== */
+
+    const hospitalSelect =
+        document.getElementById("hospital");
+
+
+    const slotSelect =
+        document.getElementById("slot");
+
+
+    const noSlotsMessage =
+        document.getElementById("no-slots-message");
+
+
+    const selectedSlotInfo =
+        document.getElementById("selected-slot-info");
+
+
+    const selectedSlotText =
+        document.getElementById("selected-slot-text");
+
+
+    const submitButton =
+        document.getElementById("submit-btn");
+
+
+    /* =====================================================
+       FILTER SLOTS BASED ON HOSPITAL
+    ===================================================== */
+
+    function filterSlots(keepSelected = false) {
+
+
+        const selectedHospital =
+            hospitalSelect.value;
+
+
+        const currentSlot =
+            slotSelect.value;
+
+
+        const options =
+            slotSelect.querySelectorAll(
+                "option[data-hospital]"
+            );
+
+
+        let availableCount = 0;
+
+
+        /*
+         * Hide/show slots based on selected hospital
+         */
+
+        options.forEach(function(option) {
+
+
+            const optionHospital =
+                option.getAttribute(
+                    "data-hospital"
+                );
+
+
+            if (
+                selectedHospital &&
+                optionHospital === selectedHospital
+            ) {
+
+                option.hidden = false;
+
+                availableCount++;
+
+            } else {
+
+                option.hidden = true;
+
+            }
+
+        });
+
+
+        /*
+         * No hospital selected
+         */
+
+        if (!selectedHospital) {
+
+            slotSelect.value = "";
+
+            noSlotsMessage.style.display =
+                "none";
+
+            selectedSlotInfo.style.display =
+                "none";
+
+            submitButton.disabled = true;
+
+            return;
+
+        }
+
+
+        /*
+         * No available slots
+         */
+
+        if (availableCount === 0) {
+
+            slotSelect.value = "";
+
+            noSlotsMessage.style.display =
+                "block";
+
+            selectedSlotInfo.style.display =
+                "none";
+
+            submitButton.disabled = true;
+
+            return;
+
+        }
+
+
+        /*
+         * Slots available
+         */
+
+        noSlotsMessage.style.display =
+            "none";
+
+
+        submitButton.disabled = false;
+
+
+        /*
+         * Keep selected slot when coming from
+         * the Doctor Availability page.
+         */
+
+        if (
+            keepSelected &&
+            currentSlot
+        ) {
+
+            slotSelect.value =
+                currentSlot;
+
+        } else {
+
+            slotSelect.value = "";
+
+        }
+
+
+        updateSelectedSlot();
+
+    }
+
+
+    /* =====================================================
+       SHOW SELECTED SLOT
+    ===================================================== */
+
+    function updateSelectedSlot() {
+
+
+        const selectedOption =
+            slotSelect.options[
+                slotSelect.selectedIndex
+            ];
+
+
+        if (
+            !selectedOption ||
+            !slotSelect.value
+        ) {
+
+            selectedSlotInfo.style.display =
+                "none";
+
+            return;
+
+        }
+
+
+        const text =
+            selectedOption.textContent.trim();
+
+
+        selectedSlotText.textContent =
+            text;
+
+
+        selectedSlotInfo.style.display =
+            "block";
+
+    }
+
+
+    /* =====================================================
+       HOSPITAL CHANGED
+    ===================================================== */
+
+    hospitalSelect.addEventListener(
+        "change",
+        function() {
+
+            filterSlots(false);
+
+        }
+    );
+
+
+    /* =====================================================
+       SLOT CHANGED
+    ===================================================== */
+
+    slotSelect.addEventListener(
+        "change",
+        function() {
+
+            updateSelectedSlot();
+
+        }
+    );
+
+
+    /* =====================================================
+       PAGE LOAD
+    ===================================================== */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+            filterSlots(true);
+
+        }
+    );
+
+
+    /*
+     * Also run immediately because the script is at
+     * the bottom of the page.
+     */
+
+    filterSlots(true);
+
+
+</script>
+
+
+</body>
+
+</html>

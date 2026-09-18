@@ -1,0 +1,105 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Appointment Submitted
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/style.css' %}"
+    >
+
+</head>
+
+
+<body>
+
+
+<header class="navbar">
+
+    <div class="nav-container">
+
+        <a href="/" class="logo">
+
+            <span class="logo-icon">
+                +
+            </span>
+
+            <span>
+                MedCare
+            </span>
+
+        </a>
+
+    </div>
+
+</header>
+
+
+<section class="success-page">
+
+    <div class="success-card">
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+        <span class="section-label">
+            APPOINTMENT REQUEST
+        </span>
+
+        <h1>
+            Appointment Submitted
+        </h1>
+
+        <p>
+            Your appointment request has been
+            successfully submitted.
+        </p>
+
+        <p>
+            The hospital will review your request
+            and confirm the appointment.
+        </p>
+
+        <div class="success-actions">
+
+            <a href="/">
+                Back to Doctor Profile
+            </a>
+
+            <a href="/appointments/book/">
+                Book Another Appointment
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <div class="copyright">
+        © 2026 MedCare. All rights reserved.
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

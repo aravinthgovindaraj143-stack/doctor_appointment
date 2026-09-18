@@ -1,0 +1,620 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        About {{ doctor.full_name }}
+    </title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="nav-container">
+
+        <a href="/" class="logo">
+            <span class="logo-icon">+</span>
+            <span>MedCare</span>
+        </a>
+
+        <nav class="nav-links">
+
+            <a href="/">
+                Doctor
+            </a>
+
+            <a href="{% url 'contact' %}">
+                Contact Us
+            </a>
+
+            <a href="{% url 'about' %}" class="active">
+                About
+            </a>
+
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'profile' %}">My Profile</a>
+                <a href="{% url 'my_appointments' %}">My Appointments</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register' %}">Register</a>
+            {% endif %}
+
+        </nav>
+
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'book_appointment' %}" class="nav-button">Book Appointment</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="nav-button">Login</a>
+        {% endif %}
+
+    </div>
+
+</header>
+
+
+<!-- ================= PAGE HEADER ================= -->
+
+<section class="about-header">
+
+    <div class="about-header-container">
+
+        <span class="section-label">
+            ABOUT THE DOCTOR
+        </span>
+
+        <h1>
+            {{ doctor.full_name }}
+        </h1>
+
+        <p>
+            {{ doctor.designation }}
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ABOUT ================= -->
+
+<section class="about-main">
+
+    <div class="about-container">
+
+        <div class="about-layout">
+
+
+            <!-- LEFT PROFILE -->
+
+            <aside class="about-profile">
+
+                {% if doctor.profile_image %}
+
+                    <img
+                        src="{{ doctor.profile_image.url }}"
+                        alt="{{ doctor.full_name }}"
+                        class="about-doctor-image"
+                    >
+
+                {% endif %}
+
+                <h3>
+                    {{ doctor.full_name }}
+                </h3>
+
+                <p>
+                    {{ doctor.designation }}
+                </p>
+
+                <a href="/appointments/book/"
+                   class="profile-book-button">
+
+                    Book an Appointment
+
+                </a>
+
+            </aside>
+
+
+            <!-- RIGHT CONTENT -->
+
+            <main class="about-content">
+
+
+                <!-- BIOGRAPHY -->
+
+                <div class="about-block">
+
+                    <span class="section-label">
+                        PROFESSIONAL PROFILE
+                    </span>
+
+                    <h2>
+                        About the Doctor
+                    </h2>
+
+                    <div class="about-paragraph">
+
+                        {{ doctor.biography|linebreaksbr }}
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUALIFICATIONS -->
+
+                <div class="about-block">
+
+                    <span class="section-label">
+                        EDUCATION & CREDENTIALS
+                    </span>
+
+                    <h2>
+                        Qualifications
+                    </h2>
+
+                    <div class="qualification-box">
+
+                        <div class="qualification-icon">
+                            🎓
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Professional Qualifications
+                            </h3>
+
+                            <p>
+                                {{ doctor.qualifications }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    {% if doctor.registration_number %}
+
+                    <div class="registration-box">
+
+                        <strong>
+                            GMC Registration Number
+                        </strong>
+
+                        <span>
+                            {{ doctor.registration_number }}
+                        </span>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- EXPERIENCE -->
+
+                <div class="about-block">
+
+                    <span class="section-label">
+                        EXPERIENCE
+                    </span>
+
+                    <h2>
+                        Professional Experience
+                    </h2>
+
+                    <div class="experience-card">
+
+                        <div class="experience-number">
+                            {{ doctor.experience }}+
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Years of Medical Practice
+                            </h3>
+
+                            <p>
+                                Experienced in trauma and
+                                orthopaedic surgery with a focus
+                                on hip and knee conditions.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SPECIALITIES -->
+
+                <div class="about-block"
+                     id="specialities">
+
+                    <span class="section-label">
+                        AREAS OF SPECIALISATION
+                    </span>
+
+                    <h2>
+                        Specialities
+                    </h2>
+
+                    <div class="about-list-grid">
+
+                        {% for speciality in doctor.specialities.all %}
+
+                        <div class="about-list-card">
+
+                            <span class="list-icon">
+                                +
+                            </span>
+
+                            <div>
+
+                                <h3>
+                                    {{ speciality.name }}
+                                </h3>
+
+                                {% if speciality.description %}
+
+                                <p>
+                                    {{ speciality.description }}
+                                </p>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- TREATMENTS -->
+
+                <div class="about-block"
+                     id="treatments">
+
+                    <span class="section-label">
+                        TREATMENT OPTIONS
+                    </span>
+
+                    <h2>
+                        Treatments & Procedures
+                    </h2>
+
+                    <div class="about-treatment-list">
+
+                        {% for treatment in doctor.treatments.all %}
+
+                        <div class="about-treatment">
+
+                            <span>
+                                ✓
+                            </span>
+
+                            <div>
+
+                                <h3>
+                                    {{ treatment.name }}
+                                </h3>
+
+                                {% if treatment.description %}
+
+                                <p>
+                                    {{ treatment.description }}
+                                </p>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- HOSPITALS -->
+
+                <div class="about-block"
+                     id="hospitals">
+
+                    <span class="section-label">
+                        CONSULTATION LOCATIONS
+                    </span>
+
+                    <h2>
+                        Hospitals
+                    </h2>
+
+                    <div class="about-hospital-grid">
+
+                        {% for hospital in doctor.hospitals.all %}
+
+                        <div class="about-hospital">
+
+                            <div class="hospital-symbol">
+                                ⌖
+                            </div>
+
+                            <div>
+
+                                <h3>
+                                    {{ hospital.name }}
+                                </h3>
+
+                                <p>
+                                    {{ hospital.address }}
+                                </p>
+
+                                <strong>
+                                    {{ hospital.city }}
+                                </strong>
+
+                                {% if hospital.phone %}
+
+                                <small>
+                                    Phone:
+                                    {{ hospital.phone }}
+                                </small>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- CONSULTATION -->
+
+                {% if doctor.consultation_information %}
+
+                <div class="about-block">
+
+                    <span class="section-label">
+                        CONSULTATION
+                    </span>
+
+                    <h2>
+                        Consultation Information
+                    </h2>
+
+                    <div class="information-box">
+
+                        {{ doctor.consultation_information|linebreaksbr }}
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- RESEARCH -->
+
+                {% if doctor.research %}
+
+                <div class="about-block">
+
+                    <span class="section-label">
+                        ACADEMIC WORK
+                    </span>
+
+                    <h2>
+                        Research
+                    </h2>
+
+                    <div class="information-box">
+
+                        {{ doctor.research|linebreaksbr }}
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- MEMBERSHIPS -->
+
+                {% if doctor.memberships %}
+
+                <div class="about-block">
+
+                    <span class="section-label">
+                        PROFESSIONAL ASSOCIATIONS
+                    </span>
+
+                    <h2>
+                        Professional Memberships
+                    </h2>
+
+                    <div class="information-box">
+
+                        {{ doctor.memberships|linebreaksbr }}
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- LANGUAGES -->
+
+                {% if doctor.languages %}
+
+                <div class="about-block">
+
+                    <span class="section-label">
+                        COMMUNICATION
+                    </span>
+
+                    <h2>
+                        Languages
+                    </h2>
+
+                    <div class="language-box">
+
+                        {{ doctor.languages }}
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+
+            </main>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CTA ================= -->
+
+<section class="about-cta">
+
+    <div class="about-cta-container">
+
+        <div>
+
+            <span>
+                NEED A CONSULTATION?
+            </span>
+
+            <h2>
+                Book your appointment
+            </h2>
+
+            <p>
+                Select your preferred hospital and
+                consultation time.
+            </p>
+
+        </div>
+
+        <a href="/appointments/book/">
+            Book an Appointment →
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-container">
+
+        <div class="footer-brand">
+
+            <div class="logo footer-logo">
+
+                <span class="logo-icon">
+                    +
+                </span>
+
+                <span>
+                    MedCare
+                </span>
+
+            </div>
+
+            <p>
+                Professional healthcare information
+                and appointment services.
+            </p>
+
+        </div>
+
+        <div class="footer-links">
+
+            <h4>
+                Navigation
+            </h4>
+
+            <a href="/">
+                Doctor
+            </a>
+
+            <a href="{% url 'about' %}">
+                About
+            </a>
+
+            <a href="#specialities">
+                Specialities
+            </a>
+
+        </div>
+
+        <div class="footer-links">
+
+            <h4>
+                Services
+            </h4>
+
+            <a href="#treatments">
+                Treatments
+            </a>
+
+            <a href="#hospitals">
+                Hospitals
+            </a>
+
+            <a href="/appointments/book/">
+                Appointment
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="copyright">
+        © 2026 MedCare. All rights reserved.
+    </div>
+
+</footer>
+
+
+</body>
+</html>

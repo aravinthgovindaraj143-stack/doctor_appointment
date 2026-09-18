@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Details | MedCare</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">+</span>
+                <span>MedCare</span>
+            </a>
+            <nav class="nav-links">
+                <a href="/">Doctor</a>
+                <a href="{% url 'about' %}">About</a>
+                <a href="{% url 'contact' %}">Contact</a>
+            </nav>
+            <a href="{% url 'my_appointments' %}" class="nav-button">Back to Appointments</a>
+        </div>
+    </header>
+
+    <section class="profile-page">
+        <div class="profile-container">
+            <aside class="profile-sidebar">
+                <div class="profile-avatar">{{ appointment.doctor.full_name|slice:':1'|upper }}</div>
+                <h3>{{ appointment.doctor.full_name }}</h3>
+                <p>{{ appointment.hospital.name }}</p>
+                <div class="side-links">
+                    <a href="{% url 'profile' %}">Dashboard</a>
+                    <a href="{% url 'my_appointments' %}" class="active">Appointments</a>
+                    <a href="{% url 'contact' %}">Support</a>
+                </div>
+            </aside>
+
+            <main class="profile-main">
+                <div class="profile-header">
+                    <div>
+                        <span class="section-label">APPOINTMENT DETAILS</span>
+                        <h1>{{ appointment.doctor.full_name }}</h1>
+                    </div>
+                    <span class="status-tag status-{{ appointment.status|lower }}">{{ appointment.status }}</span>
+                </div>
+
+                <div class="details-layout">
+                    <div class="details-card">
+                        <h3>Booking Information</h3>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <label>Date</label>
+                                <strong>{{ appointment.appointment_date|date:'D, d M Y' }}</strong>
+                            </div>
+                            <div class="detail-item">
+                                <label>Time</label>
+                                <strong>{{ appointment.appointment_time }}</strong>
+                            </div>
+                            <div class="detail-item">
+                                <label>Hospital</label>
+                                <strong>{{ appointment.hospital.name }}</strong>
+                            </div>
+                            <div class="detail-item">
+                                <label>Reason</label>
+                                <strong>{{ appointment.reason }}</strong>
+                            </div>
+                        </div>
+
+                        <div class="action-row">
+                            <a href="{% url 'my_appointments' %}">Back to list</a>
+                            <a href="{% url 'book_appointment' %}" class="secondary-btn">Book another</a>
+                        </div>
+                    </div>
+
+                    <div class="details-card">
+                        <h3>Patient Details</h3>
+                        <div class="detail-item" style="margin-bottom: 12px;">
+                            <label>Patient</label>
+                            <span>{{ appointment.patient.get_full_name|default:appointment.patient.username }}</span>
+                        </div>
+                        <div class="detail-item" style="margin-bottom: 12px;">
+                            <label>Phone</label>
+                            <span>{{ appointment.patient_phone }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Notes</label>
+                            <span>{{ appointment.admin_notes|default:'No additional notes yet.' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </section>
+</body>
+</html>

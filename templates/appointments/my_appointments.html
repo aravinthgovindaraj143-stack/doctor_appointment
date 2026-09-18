@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Appointments | MedCare</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">+</span>
+                <span>MedCare</span>
+            </a>
+            <nav class="nav-links">
+                <a href="/">Doctor</a>
+                <a href="{% url 'about' %}">About</a>
+                <a href="{% url 'contact' %}">Contact</a>
+            </nav>
+            <a href="{% url 'profile' %}" class="nav-button">My Profile</a>
+        </div>
+    </header>
+
+    <section class="appointments-page">
+        <div class="appointments-container">
+            <aside class="profile-sidebar">
+                <div class="profile-avatar">{{ user.first_name|default:user.username|slice:':1'|upper }}</div>
+                <h3>{{ user.get_full_name|default:user.username }}</h3>
+                <p>Patient account</p>
+                <div class="side-links">
+                    <a href="{% url 'profile' %}">Dashboard</a>
+                    <a href="{% url 'my_appointments' %}" class="active">Appointments</a>
+                    <a href="{% url 'contact' %}">Support</a>
+                </div>
+            </aside>
+
+            <main class="appointments-panel">
+                <div class="profile-header" style="margin-bottom: 16px;">
+                    <div>
+                        <span class="section-label">YOUR BOOKINGS</span>
+                        <h1>My Appointments</h1>
+                    </div>
+                    <a href="{% url 'book_appointment' %}" class="nav-button">Book New</a>
+                </div>
+
+                <div class="appointment-list">
+                    {% for appointment in appointments %}
+                    <div class="appointment-item">
+                        <div class="appointment-meta">
+                            <strong>{{ appointment.doctor.full_name }}</strong>
+                            <span>{{ appointment.appointment_date|date:'D, d M Y' }} • {{ appointment.appointment_time }}</span>
+                            <span>{{ appointment.hospital.name }}</span>
+                            <span>{{ appointment.reason }}</span>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <span class="status-tag status-{{ appointment.status|lower }}">{{ appointment.status }}</span>
+                            <a href="{% url 'appointment_details' appointment.id %}" class="view-link">Details</a>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="empty-message">You have no appointments yet.</p>
+                    {% endfor %}
+                </div>
+            </main>
+        </div>
+    </section>
+</body>
+</html>
