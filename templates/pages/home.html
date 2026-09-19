@@ -1,5 +1,5 @@
 {% load static %}
-{% static 'media/doctors/dr.jpeg' as doctor_fallback %}
+{% static 'images/dr.jpeg' as doctor_fallback %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +12,7 @@
           content="width=device-width, initial-scale=1.0">
 
     <title>
-        {{ doctor.full_name }} | Doctor
+        {{ doctor.full_name|default:"MedCare | Doctor" }} | Doctor
     </title>
 
     <link rel="stylesheet"
@@ -23,7 +23,9 @@
 <body>
 
 
-<!-- ================= NAVBAR ================= -->
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
 
 <header class="navbar home-navbar">
 
@@ -44,6 +46,7 @@
 
 
         <nav class="nav-links">
+
             <a href="{% url 'doctors_list' %}">
                 Doctors
             </a>
@@ -70,29 +73,78 @@
 
         </nav>
 
+
+        <!-- ================= ACCOUNT ================= -->
+
         {% if request.user.is_authenticated %}
+
             <div class="account-menu">
+
                 <details>
+
                     <summary>
-                        <span class="account-avatar">{{ request.user.username|slice:':1'|upper }}</span>
-                        <span class="account-name">{{ request.user.username }}</span>
-                        <span class="account-chevron">⌄</span>
+
+                        <span class="account-avatar">
+                            {{ request.user.username|slice:':1'|upper }}
+                        </span>
+
+                        <span class="account-name">
+                            {{ request.user.username }}
+                        </span>
+
+                        <span class="account-chevron">
+                            ⌄
+                        </span>
+
                     </summary>
+
+
                     <div class="account-dropdown">
-                        <a href="{% url 'profile' %}">My Profile</a>
-                        <a href="{% url 'my_appointments' %}">My Appointments</a>
-                        <a href="{% url 'logout' %}" class="account-logout">Logout</a>
+
+                        <a href="{% url 'profile' %}">
+                            My Profile
+                        </a>
+
+                        <a href="{% url 'my_appointments' %}">
+                            My Appointments
+                        </a>
+
+                        <a href="{% url 'logout' %}"
+                           class="account-logout">
+                            Logout
+                        </a>
+
                     </div>
+
                 </details>
+
             </div>
-            <a href="{% url 'book_appointment' %}" class="nav-button">
+
+
+            <a href="{% url 'book_appointment' %}"
+               class="nav-button">
+
                 Book Appointment
+
             </a>
+
         {% else %}
+
             <div class="guest-actions">
-                <a href="{% url 'login' %}">Login</a>
-                <a href="{% url 'register' %}" class="nav-button">Register</a>
+
+                <a href="{% url 'login' %}">
+                    Login
+                </a>
+
+                <a href="{% url 'register' %}"
+                   class="nav-button">
+
+                    Register
+
+                </a>
+
             </div>
+
         {% endif %}
 
     </div>
@@ -100,7 +152,9 @@
 </header>
 
 
-<!-- ================= DOCTOR PAGE ================= -->
+<!-- =====================================================
+     DOCTOR MAIN SECTION
+===================================================== -->
 
 {% if doctor %}
 
@@ -109,63 +163,86 @@
     <div class="doctor-main-container">
 
 
-        <!-- DOCTOR IMAGE -->
+        <!-- ================= DOCTOR IMAGE ================= -->
 
         <div class="doctor-main-image">
 
             {% if doctor.profile_image %}
-            <img
-                src="{ % static 'images/dr.jpeg' %}"
-                alt="{{ doctor.full_name }}"
-                onerror="this.onerror=null;this.src='{{ doctor_fallback }}';"
-            >
+
+                <img
+                    src="{{ doctor.profile_image.url }}"
+                    alt="{{ doctor.full_name }}"
+                    class="doctor-main-photo"
+                    onerror="this.onerror=null;this.src='{{ doctor_fallback }}';"
+                >
+
             {% else %}
-            <img src="{{ doctor_fallback }}" alt="{{ doctor.full_name }}">
+
+                <img
+                    src="{{ doctor_fallback }}"
+                    alt="{{ doctor.full_name }}"
+                    class="doctor-main-photo"
+                >
+
             {% endif %}
 
         </div>
 
 
-        <!-- DOCTOR INFORMATION -->
+        <!-- ================= DOCTOR INFORMATION ================= -->
 
         <div class="doctor-main-content">
 
             <span class="section-label">
+
                 CONSULTANT TRAUMA & ORTHOPAEDIC SURGEON
+
             </span>
 
 
             <h1 class="doctor-name">
+
                 {{ doctor.full_name }}
+
             </h1>
 
 
             <h3>
+
                 {{ doctor.designation }}
+
             </h3>
 
 
-            <!-- QUALIFICATIONS -->
+            <!-- ================= QUALIFICATIONS ================= -->
 
             <div class="doctor-qualification">
 
                 <span class="qualification-title">
+
                     Qualifications
+
                 </span>
 
                 <p>
+
                     {{ doctor.qualifications }}
+
                 </p>
 
             </div>
 
+
+            <!-- ================= REGISTRATION ================= -->
 
             {% if doctor.registration_number %}
 
             <div class="doctor-registration">
 
                 <strong>
+
                     GMC Registration Number:
+
                 </strong>
 
                 {{ doctor.registration_number }}
@@ -175,7 +252,7 @@
             {% endif %}
 
 
-            <!-- BUTTONS -->
+            <!-- ================= BUTTONS ================= -->
 
             <div class="doctor-actions">
 
@@ -183,7 +260,10 @@
                    class="primary-button doctor-book-button">
 
                     Book an Appointment
-                    <span>→</span>
+
+                    <span>
+                        →
+                    </span>
 
                 </a>
 
@@ -204,7 +284,9 @@
 </section>
 
 
-<!-- ================= SMALL INFORMATION ================= -->
+<!-- =====================================================
+     INFORMATION BAR
+===================================================== -->
 
 <section class="doctor-info-bar">
 
@@ -214,11 +296,15 @@
         <div class="doctor-info-item">
 
             <strong>
+
                 {{ doctor.experience }}+
+
             </strong>
 
             <span>
+
                 Years Experience
+
             </span>
 
         </div>
@@ -227,11 +313,15 @@
         <div class="doctor-info-item">
 
             <strong>
+
                 {{ doctor.specialities.count }}
+
             </strong>
 
             <span>
+
                 Specialities
+
             </span>
 
         </div>
@@ -240,11 +330,15 @@
         <div class="doctor-info-item">
 
             <strong>
+
                 {{ doctor.treatments.count }}
+
             </strong>
 
             <span>
+
                 Treatments
+
             </span>
 
         </div>
@@ -253,11 +347,15 @@
         <div class="doctor-info-item">
 
             <strong>
+
                 {{ doctor.hospitals.count }}
+
             </strong>
 
             <span>
+
                 Consultation Locations
+
             </span>
 
         </div>
@@ -268,59 +366,88 @@
 </section>
 
 
-<!-- ================= SPECIALITIES ================= -->
+<!-- =====================================================
+     SPECIALITIES
+===================================================== -->
 
 <section class="specialities-showcase">
 
     <div class="section-container">
 
+
         <div class="center-heading">
 
             <span class="section-label">
+
                 SPECIALTIES
+
             </span>
 
             <h2>
+
                 Areas of expertise
+
             </h2>
 
         </div>
 
+
         <div class="speciality-grid">
 
-            {% for speciality in specialties %}
+
+            {% for speciality in doctor.specialities.all %}
 
             <article class="speciality-card">
 
                 <span class="card-number">
+
                     {{ forloop.counter|stringformat:"02d" }}
+
                 </span>
 
+
                 <div class="speciality-icon">
+
                     ✚
+
                 </div>
 
+
                 <h3>
+
                     {{ speciality.name }}
+
                 </h3>
 
+
                 <p>
+
                     {% if speciality.description %}
+
                         {{ speciality.description }}
+
                     {% else %}
-                        Comprehensive care and treatment support for this speciality.
+
+                        Comprehensive care and treatment
+                        support for this speciality.
+
                     {% endif %}
+
                 </p>
 
             </article>
 
+
             {% empty %}
 
             <p class="empty-message">
-                No specialties available yet.
+
+                No specialities available yet.
+
             </p>
 
             {% endfor %}
+
 
         </div>
 
@@ -329,27 +456,131 @@
 </section>
 
 
-<!-- ================= DOCTORS LIST ================= -->
+<!-- =====================================================
+     DOCTOR LIST
+     
+     IMPORTANT:
+     No {% include "doctors/_doctor_cards.html" %}
+===================================================== -->
 
 <section class="doctor-list-section">
 
     <div class="section-container">
 
+
         <div class="center-heading">
 
             <span class="section-label">
+
                 OUR DOCTORS
+
             </span>
 
             <h2>
+
                 Meet our specialists
+
             </h2>
 
         </div>
 
+
         <div class="doctor-grid">
 
-            {% include "doctors/_doctor_cards.html" %}
+
+            <!-- ================= DOCTOR CARD ================= -->
+
+            <article class="doctor-card">
+
+
+                <!-- IMAGE -->
+
+                <div class="doctor-card-image">
+
+                    {% if doctor.profile_image %}
+
+                        <img
+                            src="{{ doctor.profile_image.url }}"
+                            alt="{{ doctor.full_name }}"
+                            onerror="this.onerror=null;this.src='{{ doctor_fallback }}';"
+                        >
+
+                    {% else %}
+
+                        <img
+                            src="{{ doctor_fallback }}"
+                            alt="{{ doctor.full_name }}"
+                        >
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- CONTENT -->
+
+                <div class="doctor-card-content">
+
+
+                    <h3>
+
+                        {{ doctor.full_name }}
+
+                    </h3>
+
+
+                    <p class="doctor-designation">
+
+                        {{ doctor.designation }}
+
+                    </p>
+
+
+                    <p>
+
+                        {{ doctor.qualifications }}
+
+                    </p>
+
+
+                    {% if doctor.registration_number %}
+
+                    <p>
+
+                        <strong>
+                            GMC:
+                        </strong>
+
+                        {{ doctor.registration_number }}
+
+                    </p>
+
+                    {% endif %}
+
+
+                    <p>
+
+                        <strong>
+
+                            {{ doctor.experience }}+
+                            years of experience
+
+                        </strong>
+
+                    </p>
+
+
+                    <a href="{% url 'about' %}"
+                       class="doctor-card-button">
+
+                        View Doctor
+
+                    </a>
+
+                </div>
+
+            </article>
+
 
         </div>
 
@@ -358,20 +589,28 @@
 </section>
 
 
-<!-- ================= SHORT ABOUT ================= -->
+<!-- =====================================================
+     SHORT ABOUT
+===================================================== -->
 
 <section class="short-about">
 
     <div class="short-about-container">
 
+
         <div>
 
             <span class="section-label">
+
                 PROFESSIONAL PROFILE
+
             </span>
 
+
             <h2>
+
                 About {{ doctor.full_name }}
+
             </h2>
 
         </div>
@@ -380,11 +619,16 @@
         <div class="short-about-text">
 
             <p>
+
                 {{ doctor.biography|truncatewords:80 }}
+
             </p>
 
+
             <a href="{% url 'about' %}">
+
                 Read full profile →
+
             </a>
 
         </div>
@@ -394,31 +638,42 @@
 </section>
 
 
-<!-- ================= APPOINTMENT CTA ================= -->
+<!-- =====================================================
+     APPOINTMENT CTA
+===================================================== -->
 
 <section class="doctor-cta">
 
     <div class="doctor-cta-container">
 
+
         <div>
 
             <span>
+
                 NEED A CONSULTATION?
+
             </span>
 
+
             <h2>
+
                 Book your appointment
+
             </h2>
 
+
             <p>
+
                 Choose your preferred hospital and
                 available consultation time.
+
             </p>
 
         </div>
 
 
-        <a href="/appointments/book/">
+        <a href="{% url 'book_appointment' %}">
 
             Book an Appointment →
 
@@ -429,74 +684,113 @@
 </section>
 
 
-<!-- ================= FOOTER ================= -->
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
 <footer>
 
     <div class="footer-container">
+
+
+        <!-- ================= BRAND ================= -->
 
         <div class="footer-brand">
 
             <div class="logo footer-logo">
 
                 <span class="logo-icon">
+
                     +
+
                 </span>
 
                 <span>
+
                     MedCare
+
                 </span>
 
             </div>
 
+
             <p>
+
                 Professional healthcare information
                 and appointment services.
+
             </p>
 
         </div>
 
 
+        <!-- ================= NAVIGATION ================= -->
+
         <div class="footer-links">
 
             <h4>
+
                 Navigation
+
             </h4>
+
 
             <a href="/">
+
                 Doctor
+
             </a>
+
 
             <a href="{% url 'about' %}">
+
                 About
+
             </a>
 
+
             <a href="{% url 'about' %}#specialities">
+
                 Specialities
+
             </a>
 
         </div>
 
+
+        <!-- ================= SERVICES ================= -->
 
         <div class="footer-links">
 
             <h4>
+
                 Services
+
             </h4>
 
+
             <a href="{% url 'about' %}#treatments">
+
                 Treatments
+
             </a>
+
 
             <a href="{% url 'about' %}#hospitals">
+
                 Hospitals
+
             </a>
 
-            <a href="/appointments/book/">
+
+            <a href="{% url 'book_appointment' %}">
+
                 Appointment
+
             </a>
 
         </div>
+
 
     </div>
 
@@ -510,7 +804,38 @@
 </footer>
 
 
+{% else %}
+
+
+<!-- =====================================================
+     NO DOCTOR FOUND
+===================================================== -->
+
+<section class="empty-doctor-page">
+
+    <div class="section-container">
+
+        <h2>
+
+            Doctor information is currently unavailable.
+
+        </h2>
+
+        <p>
+
+            Please check the doctor information in the
+            administration panel.
+
+        </p>
+
+    </div>
+
+</section>
+
+
 {% endif %}
 
+
 </body>
+
 </html>
