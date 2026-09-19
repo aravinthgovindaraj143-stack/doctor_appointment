@@ -549,6 +549,7 @@ button {
 
     font-size: 13px;
     font-weight: 700;
+    letter-spacing: 0.2px;
 
     transition: 0.3s ease;
     cursor: pointer;
@@ -567,6 +568,12 @@ button {
     box-shadow: 0 18px 32px rgba(23, 109, 135, 0.28);
 }
 
+.primary-button:active,
+.secondary-button:active,
+.nav-button:active {
+    transform: translateY(1px);
+}
+
 .primary-button span {
     margin-left: 12px;
     font-size: 17px;
@@ -575,14 +582,17 @@ button {
 .secondary-button {
     background: rgba(255, 255, 255, 0.94);
 
-    border: 1px solid #d3e1e6;
+    border: 1px solid #9fcbd2;
 
-    color: #31586d;
+    color: #0d4b62;
+    box-shadow: 0 8px 18px rgba(18, 72, 91, 0.08);
 }
 
 .secondary-button:hover {
     border-color: #8dbdc8;
-    background: #f7fbfc;
+    background: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(18, 72, 91, 0.14);
 }
 
 .primary-button:focus-visible,
@@ -3028,7 +3038,14 @@ footer {
     text-shadow: none;
 
     display: block;
+    width: fit-content;
     max-width: 100%;
+
+    padding: 8px 16px 10px;
+    border-left: 6px solid #0b8295;
+    border-radius: 4px 12px 12px 4px;
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: 0 12px 26px rgba(18, 72, 91, 0.1);
 
     font-size: clamp(34px, 4.5vw, 54px);
 
@@ -3443,6 +3460,7 @@ footer {
     .doctor-main-content h1.doctor-name {
         font-size: clamp(28px, 8vw, 36px);
         line-height: 1.08;
+        padding: 7px 12px 8px;
     }
 
     .doctor-actions {
