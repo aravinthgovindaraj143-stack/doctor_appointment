@@ -43,6 +43,9 @@ ALLOWED_HOSTS = [
     if host.strip()
 ]
 
+if os.getenv('VERCEL') and '.vercel.app' not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.extend(['.vercel.app', '.now.sh'])
+
 CSRF_TRUSTED_ORIGINS = [
     origin.strip()
     for origin in os.getenv('CSRF_TRUSTED_ORIGINS', '').split(',')

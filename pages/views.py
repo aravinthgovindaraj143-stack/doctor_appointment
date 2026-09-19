@@ -28,19 +28,21 @@ def home(request):
 
 
 def about(request):
-    doctor = Doctor.objects.filter(
+    doctors = Doctor.objects.filter(
         is_active=True
     ).prefetch_related(
         "specialities",
         "treatments",
         "hospitals"
-    ).first()
+    ).order_by("created_at")
+    doctor = doctors.first()
 
     return render(
         request,
         "pages/about.html",
         {
-            "doctor": doctor
+            "doctor": doctor,
+            "doctors": doctors,
         }
     )
 

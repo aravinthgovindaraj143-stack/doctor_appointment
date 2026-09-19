@@ -16,6 +16,9 @@ Set these environment variables:
 - `ALLOWED_HOSTS`: the deployed hostname, for example `doctor-appointment.onrender.com`
 - `CSRF_TRUSTED_ORIGINS`: the full HTTPS origin, for example `https://doctor-appointment.onrender.com`
 - `DATABASE_URL`: the PostgreSQL connection URL
+- `TWILIO_ACCOUNT_SID`: your Twilio account SID
+- `TWILIO_AUTH_TOKEN`: your Twilio auth token
+- `TWILIO_PHONE_NUMBER`: your Twilio phone number in E.164 format
 
 The local SQLite database remains available when `DATABASE_URL` is empty. Production should use PostgreSQL because local SQLite storage is not persistent on most hosted services.
 

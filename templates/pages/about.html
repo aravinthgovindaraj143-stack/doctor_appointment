@@ -1,4 +1,5 @@
 {% load static %}
+{% static 'media/doctors/dr.jpeg' as doctor_fallback %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -41,7 +42,7 @@
                 Contact Us
             </a>
 
-            <a href="{% url 'about' %}" class="active">
+            <a href="{% url 'about' %}" class="active" aria-current="page">
                 About
             </a>
 
@@ -107,6 +108,15 @@
 
                     <img
                         src="{{ doctor.profile_image.url }}"
+                        alt="{{ doctor.full_name }}"
+                        class="about-doctor-image"
+                        onerror="this.onerror=null;this.src='{{ doctor_fallback }}';"
+                    >
+
+                {% else %}
+
+                    <img
+                        src="{{ doctor_fallback }}"
                         alt="{{ doctor.full_name }}"
                         class="about-doctor-image"
                     >
@@ -500,6 +510,35 @@
 
 
             </main>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= DOCTORS ================= -->
+
+<section class="doctor-list-section">
+
+    <div class="section-container">
+
+        <div class="center-heading">
+
+            <span class="section-label">
+                OUR DOCTORS
+            </span>
+
+            <h2>
+                Meet our specialists
+            </h2>
+
+        </div>
+
+        <div class="doctor-grid">
+
+            {% include "doctors/_doctor_cards.html" %}
 
         </div>
 

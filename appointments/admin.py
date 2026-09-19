@@ -29,6 +29,7 @@ class AppointmentAdmin(admin.ModelAdmin):
         "appointment_date",
         "appointment_time",
         "status",
+        "confirmation_sms_sent",
     )
 
     list_filter = (

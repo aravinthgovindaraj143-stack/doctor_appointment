@@ -73,6 +73,8 @@ class Appointment(models.Model):
 
     admin_notes = models.TextField(blank=True)
 
+    confirmation_sms_sent = models.BooleanField(default=False)
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
