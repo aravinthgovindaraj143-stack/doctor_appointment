@@ -45,7 +45,7 @@
         <nav class="nav-links">
 
             <a href="/">
-                {{ doctor.full_name|default:"Doctor" }}
+                Doctor
             </a>
 
             <a href="{% url 'contact' %}">
@@ -113,20 +113,12 @@
 
         <div class="doctor-main-image">
 
-            {% if doctor.profile_image %}
+            {% static 'media/doctors/dr.jpeg' as doctor_image %}
 
             <img
-                src="{{ doctor.profile_image.url }}"
+                src="{{ doctor_image }}"
                 alt="{{ doctor.full_name }}"
             >
-
-            {% else %}
-
-            <div class="doctor-image-placeholder">
-                DR
-            </div>
-
-            {% endif %}
 
         </div>
 
@@ -140,7 +132,7 @@
             </span>
 
 
-            <h1>
+            <h1 class="doctor-name">
                 {{ doctor.full_name }}
             </h1>
 
@@ -184,8 +176,8 @@
 
             <div class="doctor-actions">
 
-                <a href="/appointments/book/"
-                   class="primary-button">
+                     <a href="{% url 'book_appointment' %}"
+                         class="primary-button doctor-book-button">
 
                     Book an Appointment
                     <span>→</span>

@@ -6,5 +6,8 @@ venv/
 db.sqlite3
 staticfiles/
 media/
+!static/media/
+!static/media/doctors/
+!static/media/doctors/dr.jpeg
 .vercel
 .env*

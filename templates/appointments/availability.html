@@ -31,12 +31,12 @@
 
         .navbar {
             height: 80px;
-            background: white;
+            background: linear-gradient(110deg, #062f45, #087f86);
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 5%;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 24px rgba(4, 45, 62, 0.22);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -61,12 +61,12 @@
         }
 
         .brand-text h2 {
-            color: #14508c;
+            color: #ffffff;
             font-size: 23px;
         }
 
         .brand-text p {
-            color: #65788e;
+            color: #c4f3f1;
             font-size: 13px;
             margin-top: 2px;
         }
@@ -79,20 +79,21 @@
 
         .nav-links a {
             text-decoration: none;
-            color: #24364b;
+            color: #efffff;
             padding: 13px 18px;
             border-radius: 8px;
             font-weight: 600;
         }
 
         .nav-links a:hover {
-            background: #eaf4ff;
-            color: #1474c4;
+            background: rgba(190, 255, 249, 0.16);
+            color: #ffffff;
         }
 
         .nav-links .active {
-            background: #277bc4;
-            color: white;
+            background: #b8fff5;
+            color: #06445a;
+            box-shadow: 0 6px 16px rgba(75, 229, 216, 0.28);
         }
 
         /* HERO */
@@ -213,7 +214,7 @@
         .book-btn {
             flex: 1;
             border: none;
-            background: #13a968;
+            background: linear-gradient(135deg, #16bd7b, #078d91);
             color: white;
 
             padding: 14px 18px;
@@ -227,12 +228,14 @@
         }
 
         .book-btn:hover {
-            background: #078b55;
+            background: linear-gradient(135deg, #25d98e, #079fac);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(7, 141, 145, 0.24);
         }
 
         .location-btn {
             border: none;
-            background: #277bc4;
+            background: linear-gradient(135deg, #168dbd, #1765a7);
             color: white;
 
             padding: 14px 18px;
@@ -240,6 +243,12 @@
 
             text-decoration: none;
             font-weight: bold;
+            transition: 0.25s ease;
+        }
+
+        .location-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(23, 101, 167, 0.24);
         }
 
         /* MAIN */
