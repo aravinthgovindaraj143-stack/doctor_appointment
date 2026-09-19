@@ -46,7 +46,7 @@
 					{% for doctor in doctors %}
 					<article class="doctor-card">
 						{% if doctor.profile_image %}
-						<img src="{% static 'images/dr.jpeg' %}" alt="{{ doctor.full_name }}" onerror="this.onerror=null;this.src='{{ doctor_fallback }}';">
+						<img src="{% static 'images/doctor.jpeg' %}" alt="{{ doctor.full_name }}" onerror="this.onerror=null;this.src='{{ doctor_fallback }}';">
 						{% else %}
 						<img src="{{ doctor_fallback }}" alt="{{ doctor.full_name }}">
 						{% endif %}

@@ -1,5 +1,5 @@
 {% load static %}
-{% static 'images/dr.jpeg' as doctor_fallback %}
+{% static 'images/doctor.jpeg' as doctor_fallback %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -145,7 +145,7 @@
                 {% if doctor.profile_image %}
 
                     <img
-                        src="{% static 'images/dr.jpeg' %}"
+                        src="{% static 'images/doctor.jpeg' %}"
                         alt="{{ doctor.full_name }}"
                         class="about-doctor-image"
                         onerror="this.onerror=null;this.src='{{ doctor_fallback }}';"
@@ -154,7 +154,7 @@
                 {% else %}
 
                     <img
-                        src="{% static 'images/dr.jpeg' %}"
+                        src="{% static 'images/doctor.jpeg' %}"
                         alt="{{ doctor.full_name }}"
                         class="about-doctor-image"
                     >

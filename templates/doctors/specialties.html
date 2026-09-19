@@ -36,7 +36,7 @@
 			<div class="doctor-main-container">
 				<div class="doctor-main-image">
 					{% if doctor.profile_image %}
-					<img src="{% static 'images/dr.jpeg' %}"
+					<img src="{% static 'images/doctor.jpeg' %}"
 						 alt="{{ doctor.full_name|default:'MedCare doctor' }}"
 						 onerror="this.onerror=null;this.src='{{ doctor_fallback }}';">
 					{% else %}

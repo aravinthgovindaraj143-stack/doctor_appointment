@@ -1,5 +1,5 @@
 {% load static %}
-{% static 'images/dr.jpeg' as doctor_fallback %}
+{% static 'images/doctor.jpeg' as doctor_fallback %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -341,7 +341,7 @@
                 src="{{ doctor.profile_image.url }}"
                 onerror="this.onerror=null;this.src='{{ doctor_fallback }}';"
                 {% else %}
-                src="{% static 'images/dr.jpeg' %}"
+                src="{% static 'images/doctor.jpeg' %}"
                 {% endif %}
                 alt="{{ doctor.full_name }}"
                 class="doctor-image"
