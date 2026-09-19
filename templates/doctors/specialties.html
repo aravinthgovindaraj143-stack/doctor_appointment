@@ -1,0 +1,70 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Specialties | MedCare</title>
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+	<header class="navbar home-navbar">
+		<div class="nav-container">
+			<a href="{% url 'home' %}" class="logo">
+				<span class="logo-icon">+</span>
+				<span class="logo-copy">
+					<strong>MedCare</strong>
+					<small>Specialist care, made simple</small>
+				</span>
+			</a>
+			<nav class="nav-links">
+				<a href="{% url 'home' %}">Doctor</a>
+				<a href="{% url 'specialties' %}" aria-current="page">Specialities</a>
+				<a href="{% url 'about' %}">About</a>
+				<a href="{% url 'contact' %}">Contact Us</a>
+			</nav>
+			<a href="{% url 'book_appointment' %}" class="nav-button">Book Appointment</a>
+		</div>
+	</header>
+
+	<main>
+		<section class="doctor-main">
+			<div class="doctor-main-container">
+				<div class="doctor-main-image">
+					<img src="{% static 'media/doctors/dr.jpeg' %}"
+						 alt="{{ doctor.full_name|default:'MedCare doctor' }}">
+				</div>
+				<div class="doctor-main-content">
+					<span class="section-label">AREAS OF SPECIALISATION</span>
+					<h1 class="doctor-name">Specialties</h1>
+					<p class="hero-description">
+						Expert care shaped around your needs, from diagnosis through recovery.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="specialities-showcase">
+			<div class="section-container">
+				<div class="center-heading">
+					<span class="section-label">SPECIALIST CARE</span>
+					<h2>Find the right expertise</h2>
+				</div>
+				<div class="speciality-grid">
+					{% for speciality in specialties %}
+						<article class="speciality-card">
+							<span class="card-number">{{ forloop.counter|stringformat:"02d" }}</span>
+							<div class="speciality-icon">+</div>
+							<h3>{{ speciality.name }}</h3>
+							<p>{{ speciality.description|default:'Focused specialist care for your recovery.' }}</p>
+						</article>
+					{% empty %}
+						<p class="empty-message">No specialties available yet.</p>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+	</main>
+</body>
+</html>
