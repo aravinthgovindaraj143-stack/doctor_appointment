@@ -108,12 +108,14 @@
 
         <div class="doctor-main-image">
 
-            {% static 'media/doctors/dr.jpeg' as doctor_image %}
-
+            {% if doctor.profile_image %}
             <img
-                src="{{ doctor_image }}"
+                src="{{ doctor.profile_image.url }}"
                 alt="{{ doctor.full_name }}"
             >
+            {% else %}
+            <div class="doctor-image-placeholder">DR</div>
+            {% endif %}
 
         </div>
 
@@ -341,51 +343,7 @@
 
         <div class="doctor-grid">
 
-            {% for doctor_item in doctors %}
-
-            <article class="doctor-card">
-
-                {% if doctor_item.profile_image %}
-                <img src="{{ doctor_item.profile_image.url }}" alt="{{ doctor_item.full_name }}">
-                {% else %}
-                <div class="doctor-card-placeholder">
-                    DR
-                </div>
-                {% endif %}
-
-                <div class="doctor-card-body">
-
-                    <h3>
-                        {{ doctor_item.full_name }}
-                    </h3>
-
-                    <p class="doctor-card-role">
-                        {{ doctor_item.designation }}
-                    </p>
-
-                    <div class="doctor-specialty-list">
-                        {% for speciality in doctor_item.specialities.all %}
-                        <span>{{ speciality.name }}</span>
-                        {% empty %}
-                        <span>General Care</span>
-                        {% endfor %}
-                    </div>
-
-                    <a href="{% url 'about' %}">
-                        View Profile
-                    </a>
-
-                </div>
-
-            </article>
-
-            {% empty %}
-
-            <p class="empty-message">
-                No doctors available at the moment.
-            </p>
-
-            {% endfor %}
+            {% include "doctors/_doctor_cards.html" %}
 
         </div>
 
