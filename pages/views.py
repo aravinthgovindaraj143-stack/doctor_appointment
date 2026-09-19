@@ -18,7 +18,7 @@ def home(request):
 
     return render(
         request,
-        "pages/home.html",
+        "pages/home_fixed.html",
         {
             "doctor": doctor,
             "doctors": doctors,
