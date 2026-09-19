@@ -1,4 +1,5 @@
 {% load static %}
+{% static 'media/doctors/dr.jpeg' as doctor_fallback %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -654,22 +655,16 @@
                     src="{{ doctor.profile_image.url }}"
                     class="doctor-photo"
                     alt="{{ doctor.full_name }}"
+                    onerror="this.onerror=null;this.src='{{ doctor_fallback }}';"
                 >
 
             {% else %}
 
-                <div
+                <img
+                    src="{{ doctor_fallback }}"
                     class="doctor-photo"
-                    style="
-                        display:flex;
-                        align-items:center;
-                        justify-content:center;
-                        font-size:70px;
-                        color:#6c8499;
-                    "
+                    alt="{{ doctor.full_name }}"
                 >
-                    <i class="fa-solid fa-user-doctor"></i>
-                </div>
 
             {% endif %}
 
