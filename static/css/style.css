@@ -3034,6 +3034,9 @@ footer {
     line-height: 1.1;
 
     letter-spacing: 0;
+
+    max-width: 100%;
+    overflow-wrap: anywhere;
 }
 
 .doctor-main-content h3 {
@@ -3433,8 +3436,9 @@ footer {
         height: 380px;
     }
 
-    .doctor-main-content h1 {
-        font-size: 36px;
+    .doctor-main-content h1.doctor-name {
+        font-size: clamp(32px, 9vw, 40px);
+        line-height: 1.08;
     }
 
     .doctor-actions {
