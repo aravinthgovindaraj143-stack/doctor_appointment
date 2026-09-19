@@ -1,5 +1,5 @@
 {% load static %}
-{% static 'media/doctors/dr.jpeg' as doctor_fallback %}
+{% static 'images/dr.jpeg' as doctor_fallback %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,6 +34,10 @@
 
         <nav class="nav-links">
 
+            <a href="{% url 'doctors_list' %}">
+                Doctors
+            </a>
+
             <a href="/">
                 Doctor
             </a>
@@ -46,21 +50,52 @@
                 About
             </a>
 
+            <a href="{% url 'treatments' %}">
+                Treatments
+            </a>
+
             {% if request.user.is_authenticated %}
-                <a href="{% url 'profile' %}">My Profile</a>
-                <a href="{% url 'my_appointments' %}">My Appointments</a>
-                <a href="{% url 'logout' %}">Logout</a>
+
+                <a href="{% url 'profile' %}">
+                    My Profile
+                </a>
+
+                <a href="{% url 'my_appointments' %}">
+                    My Appointments
+                </a>
+
+                <a href="{% url 'logout' %}">
+                    Logout
+                </a>
+
             {% else %}
-                <a href="{% url 'login' %}">Login</a>
-                <a href="{% url 'register' %}">Register</a>
+
+                <a href="{% url 'login' %}">
+                    Login
+                </a>
+
+                <a href="{% url 'register' %}">
+                    Register
+                </a>
+
             {% endif %}
 
         </nav>
 
         {% if request.user.is_authenticated %}
-            <a href="{% url 'book_appointment' %}" class="nav-button">Book Appointment</a>
+
+            <a href="{% url 'book_appointment' %}"
+               class="nav-button">
+                Book Appointment
+            </a>
+
         {% else %}
-            <a href="{% url 'login' %}" class="nav-button">Login</a>
+
+            <a href="{% url 'login' %}"
+               class="nav-button">
+                Login
+            </a>
+
         {% endif %}
 
     </div>
@@ -100,14 +135,17 @@
         <div class="about-layout">
 
 
-            <!-- LEFT PROFILE -->
+            <!-- ================= LEFT PROFILE ================= -->
 
             <aside class="about-profile">
+
+
+                <!-- DOCTOR IMAGE -->
 
                 {% if doctor.profile_image %}
 
                     <img
-                        src="{{ doctor.profile_image.url }}"
+                        src="{% static 'images/dr.jpeg' %}"
                         alt="{{ doctor.full_name }}"
                         class="about-doctor-image"
                         onerror="this.onerror=null;this.src='{{ doctor_fallback }}';"
@@ -116,12 +154,13 @@
                 {% else %}
 
                     <img
-                        src="{{ doctor_fallback }}"
+                        src="{% static 'images/dr.jpeg' %}"
                         alt="{{ doctor.full_name }}"
                         class="about-doctor-image"
                     >
 
                 {% endif %}
+
 
                 <h3>
                     {{ doctor.full_name }}
@@ -131,7 +170,7 @@
                     {{ doctor.designation }}
                 </p>
 
-                <a href="/appointments/book/"
+                <a href="{% url 'book_appointment' %}"
                    class="profile-book-button">
 
                     Book an Appointment
@@ -141,12 +180,12 @@
             </aside>
 
 
-            <!-- RIGHT CONTENT -->
+            <!-- ================= RIGHT CONTENT ================= -->
 
             <main class="about-content">
 
 
-                <!-- BIOGRAPHY -->
+                <!-- ================= BIOGRAPHY ================= -->
 
                 <div class="about-block">
 
@@ -167,12 +206,12 @@
                 </div>
 
 
-                <!-- QUALIFICATIONS -->
+                <!-- ================= QUALIFICATIONS ================= -->
 
                 <div class="about-block">
 
                     <span class="section-label">
-                        EDUCATION & CREDENTIALS
+                        EDUCATION &amp; CREDENTIALS
                     </span>
 
                     <h2>
@@ -219,7 +258,7 @@
                 </div>
 
 
-                <!-- EXPERIENCE -->
+                <!-- ================= EXPERIENCE ================= -->
 
                 <div class="about-block">
 
@@ -256,7 +295,7 @@
                 </div>
 
 
-                <!-- SPECIALITIES -->
+                <!-- ================= SPECIALITIES ================= -->
 
                 <div class="about-block"
                      id="specialities">
@@ -304,7 +343,7 @@
                 </div>
 
 
-                <!-- TREATMENTS -->
+                <!-- ================= TREATMENTS ================= -->
 
                 <div class="about-block"
                      id="treatments">
@@ -314,7 +353,7 @@
                     </span>
 
                     <h2>
-                        Treatments & Procedures
+                        Treatments &amp; Procedures
                     </h2>
 
                     <div class="about-treatment-list">
@@ -352,7 +391,7 @@
                 </div>
 
 
-                <!-- HOSPITALS -->
+                <!-- ================= HOSPITALS ================= -->
 
                 <div class="about-block"
                      id="hospitals">
@@ -409,7 +448,7 @@
                 </div>
 
 
-                <!-- CONSULTATION -->
+                <!-- ================= CONSULTATION ================= -->
 
                 {% if doctor.consultation_information %}
 
@@ -434,7 +473,7 @@
                 {% endif %}
 
 
-                <!-- RESEARCH -->
+                <!-- ================= RESEARCH ================= -->
 
                 {% if doctor.research %}
 
@@ -459,7 +498,7 @@
                 {% endif %}
 
 
-                <!-- MEMBERSHIPS -->
+                <!-- ================= MEMBERSHIPS ================= -->
 
                 {% if doctor.memberships %}
 
@@ -484,7 +523,7 @@
                 {% endif %}
 
 
-                <!-- LANGUAGES -->
+                <!-- ================= LANGUAGES ================= -->
 
                 {% if doctor.languages %}
 
@@ -570,7 +609,7 @@
 
         </div>
 
-        <a href="/appointments/book/">
+        <a href="{% url 'book_appointment' %}">
             Book an Appointment →
         </a>
 
@@ -584,6 +623,9 @@
 <footer>
 
     <div class="footer-container">
+
+
+        <!-- FOOTER BRAND -->
 
         <div class="footer-brand">
 
@@ -606,6 +648,9 @@
 
         </div>
 
+
+        <!-- FOOTER NAVIGATION -->
+
         <div class="footer-links">
 
             <h4>
@@ -626,6 +671,9 @@
 
         </div>
 
+
+        <!-- FOOTER SERVICES -->
+
         <div class="footer-links">
 
             <h4>
@@ -640,16 +688,20 @@
                 Hospitals
             </a>
 
-            <a href="/appointments/book/">
+            <a href="{% url 'book_appointment' %}">
                 Appointment
             </a>
 
         </div>
 
+
     </div>
 
+
     <div class="copyright">
+
         © 2026 MedCare. All rights reserved.
+
     </div>
 
 </footer>

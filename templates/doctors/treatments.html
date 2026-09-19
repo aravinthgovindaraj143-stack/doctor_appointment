@@ -1,0 +1,69 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Treatments | MedCare</title>
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+	<header class="navbar home-navbar">
+		<div class="nav-container">
+			<a href="{% url 'home' %}" class="logo">
+				<span class="logo-icon">+</span>
+				<span class="logo-copy">
+					<strong>MedCare</strong>
+					<small>Specialist care, made simple</small>
+				</span>
+			</a>
+			<nav class="nav-links">
+				<a href="{% url 'home' %}">Doctor</a>
+				<a href="{% url 'doctors_list' %}">Doctors</a>
+				<a href="{% url 'specialties' %}">Specialities</a>
+				<a href="{% url 'treatments' %}" aria-current="page">Treatments</a>
+				<a href="{% url 'about' %}">About</a>
+				<a href="{% url 'contact' %}">Contact Us</a>
+			</nav>
+			<a href="{% url 'book_appointment' %}" class="nav-button">Book Appointment</a>
+		</div>
+	</header>
+
+	<main>
+		<section class="about-header">
+			<div class="about-header-container">
+				<span class="section-label">TREATMENT OPTIONS</span>
+				<h1>Care for every step</h1>
+				<p>Explore the treatments and procedures supported by our specialists.</p>
+			</div>
+		</section>
+
+		<section class="specialities-showcase">
+			<div class="section-container">
+				<div class="speciality-grid">
+					{% for treatment in treatments %}
+					<article class="speciality-card">
+						<span class="card-number">{{ forloop.counter|stringformat:"02d" }}</span>
+						<div class="speciality-icon">+</div>
+						<h3>{{ treatment.name }}</h3>
+						<p>{{ treatment.description|default:'Specialist treatment planned around your needs and recovery.' }}</p>
+						{% with treatment.doctor_set.all as treatment_doctors %}
+						{% if treatment_doctors %}
+						<div class="doctor-specialty-list">
+							{% for doctor in treatment_doctors %}
+							{% if doctor.is_active %}<span>{{ doctor.full_name }}</span>{% endif %}
+							{% endfor %}
+						</div>
+						{% endif %}
+						{% endwith %}
+					</article>
+					{% empty %}
+					<p class="empty-message">No treatments are available yet.</p>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+	</main>
+</body>
+</html>

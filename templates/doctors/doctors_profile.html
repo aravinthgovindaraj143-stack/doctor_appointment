@@ -1,0 +1,571 @@
+{% load static %}
+{% static 'images/dr.jpeg' as doctor_fallback %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ doctor.full_name }} | MedCare</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f8f9;
+            color: #17202a;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            height: 72px;
+            background: #111827;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            color: white;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #19b98b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .logo-text h2 {
+            font-size: 20px;
+        }
+
+        .logo-text span {
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: #7edfc1;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: #45d6ad;
+        }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, #e9f8f4, #f7fbfc);
+            padding: 70px 7%;
+        }
+
+        .profile-container {
+            max-width: 1150px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 430px 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        /* IMAGE */
+        .doctor-image-box {
+            background: white;
+            padding: 15px;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.10);
+        }
+
+        .doctor-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+            border-radius: 18px;
+        }
+
+        /* DETAILS */
+        .designation {
+            color: #159b78;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .doctor-name {
+            font-size: 48px;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            color: #17202a;
+        }
+
+        .doctor-designation {
+            font-size: 20px;
+            color: #4d5b65;
+            margin-bottom: 25px;
+        }
+
+        .qualification-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        .qualification-box h3 {
+            color: #159b78;
+            font-size: 14px;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .qualification-box p {
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .experience {
+            display: flex;
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .experience-card {
+            background: white;
+            padding: 18px 25px;
+            border-radius: 14px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.06);
+        }
+
+        .experience-card strong {
+            display: block;
+            font-size: 25px;
+            color: #159b78;
+        }
+
+        .experience-card span {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .book-btn {
+            display: inline-block;
+            background: #159b78;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .book-btn:hover {
+            background: #107b60;
+            transform: translateY(-2px);
+        }
+
+        /* CONTENT */
+        .content {
+            max-width: 1100px;
+            margin: auto;
+            padding: 70px 25px;
+        }
+
+        .section {
+            background: white;
+            padding: 35px;
+            margin-bottom: 30px;
+            border-radius: 18px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.06);
+        }
+
+        .section h2 {
+            color: #159b78;
+            margin-bottom: 20px;
+            font-size: 26px;
+        }
+
+        .section p {
+            color: #555;
+            line-height: 1.8;
+            white-space: pre-line;
+        }
+
+        /* TAGS */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .tag {
+            background: #e7f8f3;
+            color: #11765c;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        /* HOSPITALS */
+        .hospital-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .hospital {
+            padding: 22px;
+            background: #f6faf9;
+            border-radius: 14px;
+            border-left: 4px solid #159b78;
+        }
+
+        .hospital h3 {
+            margin-bottom: 8px;
+        }
+
+        .hospital p {
+            font-size: 14px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        footer p {
+            color: #aeb8c2;
+            font-size: 14px;
+        }
+
+        /* MOBILE */
+        @media (max-width: 850px) {
+
+            .navbar {
+                padding: 15px 5%;
+                height: auto;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .profile-container {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+
+            .doctor-image-box {
+                max-width: 450px;
+                margin: auto;
+            }
+
+            .doctor-image {
+                height: 450px;
+            }
+
+            .doctor-name {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+
+    <div class="logo">
+        <div class="logo-icon">+</div>
+
+        <div class="logo-text">
+            <h2>MedCare</h2>
+            <span>SPECIALIST CARE, MADE SIMPLE</span>
+        </div>
+    </div>
+
+    <div class="nav-links">
+        <a href="/">Doctor</a>
+        <a href="/about/">About</a>
+        <a href="/appointments/availability/">Appointments</a>
+        <a href="/admin/">Admin</a>
+    </div>
+
+</nav>
+
+
+<!-- DOCTOR HERO -->
+<section class="hero">
+
+    <div class="profile-container">
+
+        <!-- CORRECT IMAGE -->
+        <div class="doctor-image-box">
+
+            <img
+                {% if doctor.profile_image %}
+                src="{{ doctor.profile_image.url }}"
+                onerror="this.onerror=null;this.src='{{ doctor_fallback }}';"
+                {% else %}
+                src="{% static 'images/dr.jpeg' %}"
+                {% endif %}
+                alt="{{ doctor.full_name }}"
+                class="doctor-image"
+            >
+
+        </div>
+
+
+        <!-- DOCTOR INFORMATION -->
+        <div>
+
+            <div class="designation">
+                Consultant Trauma & Orthopaedic Surgeon
+            </div>
+
+            <h1 class="doctor-name">
+                {{ doctor.full_name }}
+            </h1>
+
+            <div class="doctor-designation">
+                {{ doctor.designation }}
+            </div>
+
+
+            <div class="qualification-box">
+
+                <h3>QUALIFICATIONS</h3>
+
+                <p>
+                    {{ doctor.qualifications }}
+                </p>
+
+                {% if doctor.registration_number %}
+                <p>
+                    <strong>GMC / Registration Number:</strong>
+                    {{ doctor.registration_number }}
+                </p>
+                {% endif %}
+
+            </div>
+
+
+            <div class="experience">
+
+                <div class="experience-card">
+                    <strong>{{ doctor.experience }}</strong>
+                    <span>Years of Experience</span>
+                </div>
+
+                <div class="experience-card">
+                    <strong>2005</strong>
+                    <span>Practising Since</span>
+                </div>
+
+            </div>
+
+
+            <a href="{% url 'doctor_availability' %}" class="book-btn">
+                Book an Appointment
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- MAIN CONTENT -->
+<div class="content">
+
+
+    <!-- BIOGRAPHY -->
+    {% if doctor.biography %}
+    <section class="section">
+
+        <h2>About the Doctor</h2>
+
+        <p>{{ doctor.biography }}</p>
+
+    </section>
+    {% endif %}
+
+
+    <!-- SPECIALITIES -->
+    {% if doctor.specialities.all %}
+    <section class="section">
+
+        <h2>Specialities</h2>
+
+        <div class="tags">
+
+            {% for speciality in doctor.specialities.all %}
+
+                <div class="tag">
+                    {{ speciality.name }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+    {% endif %}
+
+
+    <!-- TREATMENTS -->
+    {% if doctor.treatments.all %}
+    <section class="section">
+
+        <h2>Treatments & Procedures</h2>
+
+        <div class="tags">
+
+            {% for treatment in doctor.treatments.all %}
+
+                <div class="tag">
+                    {{ treatment.name }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+    {% endif %}
+
+
+    <!-- HOSPITALS -->
+    {% if doctor.hospitals.all %}
+    <section class="section">
+
+        <h2>Hospitals</h2>
+
+        <div class="hospital-grid">
+
+            {% for hospital in doctor.hospitals.all %}
+
+                <div class="hospital">
+
+                    <h3>{{ hospital.name }}</h3>
+
+                    <p>{{ hospital.address }}</p>
+
+                    <p>
+                        {{ hospital.city }}
+                    </p>
+
+                    {% if hospital.phone %}
+                    <p>
+                        <strong>Phone:</strong>
+                        {{ hospital.phone }}
+                    </p>
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+    {% endif %}
+
+
+    <!-- CONSULTATION -->
+    {% if doctor.consultation_information %}
+    <section class="section">
+
+        <h2>Consultation Information</h2>
+
+        <p>{{ doctor.consultation_information }}</p>
+
+    </section>
+    {% endif %}
+
+
+    <!-- RESEARCH -->
+    {% if doctor.research %}
+    <section class="section">
+
+        <h2>Research</h2>
+
+        <p>{{ doctor.research }}</p>
+
+    </section>
+    {% endif %}
+
+
+    <!-- MEMBERSHIPS -->
+    {% if doctor.memberships %}
+    <section class="section">
+
+        <h2>Professional Memberships</h2>
+
+        <p>{{ doctor.memberships }}</p>
+
+    </section>
+    {% endif %}
+
+
+    <!-- LANGUAGES -->
+    {% if doctor.languages %}
+    <section class="section">
+
+        <h2>Languages</h2>
+
+        <p>{{ doctor.languages }}</p>
+
+    </section>
+    {% endif %}
+
+
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+
+    <p>
+        © 2026 MedCare. Specialist Care, Made Simple.
+    </p>
+
+</footer>
+
+</body>
+</html>

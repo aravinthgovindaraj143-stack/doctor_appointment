@@ -1,27 +1,29 @@
-{% if doctor %}
+{% load static %}
+{% static 'media/doctors/dr.jpeg' as doctor_fallback %}
+
+{% for doctor in doctors %}
 <div class="doctor-card">
 
     {% if doctor.profile_image %}
-        <img src="{{ doctor.profile_image.url }}"
+        <img src="{% static'images/dr.jpeg'% }"
              alt="{{ doctor.full_name }}"
-             class="doctor-image">
+             onerror="this.onerror=null;this.src='{{ doctor_fallback }}';">
+    {% else %}
+        <img src="{{ doctor_fallback }}"
+             alt="{{ doctor.full_name }}">
     {% endif %}
 
-    <div class="doctor-info">
-        <h2>{{ doctor.full_name }}</h2>
+    <h2>{{ doctor.full_name }}</h2>
 
-        <p>{{ doctor.designation }}</p>
+    <p>{{ doctor.designation }}</p>
 
-        <p>{{ doctor.qualifications }}</p>
+    <p>{{ doctor.qualifications }}</p>
 
-        {% if doctor.experience %}
-            <p>{{ doctor.experience }} years of experience</p>
-        {% endif %}
-
-        <a href="{% url 'about' %}" class="doctor-button">
-            View Doctor
-        </a>
-    </div>
+    <a href="{% url 'about' %}">
+        View Doctor
+    </a>
 
 </div>
-{% endif %}
+{% empty %}
+<p>No doctors available.</p>
+{% endfor %}

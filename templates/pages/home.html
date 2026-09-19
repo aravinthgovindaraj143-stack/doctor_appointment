@@ -44,6 +44,10 @@
 
 
         <nav class="nav-links">
+            <a href="{% url 'doctors_list' %}">
+                Doctors
+            </a>
+
             <a href="{% url 'contact' %}">
                 Contact Us
             </a>
@@ -56,7 +60,7 @@
                 Specialities
             </a>
 
-            <a href="{% url 'about' %}#treatments">
+            <a href="{% url 'treatments' %}">
                 Treatments
             </a>
 
@@ -111,7 +115,7 @@
 
             {% if doctor.profile_image %}
             <img
-                src="{{ doctor.profile_image.url }}"
+                src="{ % static 'images/dr.jpeg' %}"
                 alt="{{ doctor.full_name }}"
                 onerror="this.onerror=null;this.src='{{ doctor_fallback }}';"
             >

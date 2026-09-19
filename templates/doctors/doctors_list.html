@@ -1,0 +1,74 @@
+{% load static %}
+{% static 'media/doctors/dr.jpeg' as doctor_fallback %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Our Doctors | MedCare</title>
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+	<header class="navbar home-navbar">
+		<div class="nav-container">
+			<a href="{% url 'home' %}" class="logo">
+				<span class="logo-icon">+</span>
+				<span class="logo-copy">
+					<strong>MedCare</strong>
+					<small>Specialist care, made simple</small>
+				</span>
+			</a>
+			<nav class="nav-links">
+				<a href="{% url 'home' %}">Doctor</a>
+				<a href="{% url 'doctors_list' %}" aria-current="page">Doctors</a>
+				<a href="{% url 'specialties' %}">Specialities</a>
+				<a href="{% url 'treatments' %}">Treatments</a>
+				<a href="{% url 'about' %}">About</a>
+				<a href="{% url 'contact' %}">Contact Us</a>
+			</nav>
+			<a href="{% url 'book_appointment' %}" class="nav-button">Book Appointment</a>
+		</div>
+	</header>
+
+	<main>
+		<section class="about-header">
+			<div class="about-header-container">
+				<span class="section-label">OUR MEDICAL TEAM</span>
+				<h1>Meet our doctors</h1>
+				<p>Experienced specialists providing focused, thoughtful care.</p>
+			</div>
+		</section>
+
+		<section class="doctor-list-section">
+			<div class="section-container">
+				<div class="doctor-grid">
+					{% for doctor in doctors %}
+					<article class="doctor-card">
+						{% if doctor.profile_image %}
+						<img src="{% static 'images/dr.jpeg' %}" alt="{{ doctor.full_name }}" onerror="this.onerror=null;this.src='{{ doctor_fallback }}';">
+						{% else %}
+						<img src="{{ doctor_fallback }}" alt="{{ doctor.full_name }}">
+						{% endif %}
+						<div class="doctor-card-body">
+							<h3>{{ doctor.full_name }}</h3>
+							<p class="doctor-card-role">{{ doctor.designation }}</p>
+							<div class="doctor-specialty-list">
+								{% for speciality in doctor.specialities.all %}
+								<span>{{ speciality.name }}</span>
+								{% empty %}
+								<span>General Care</span>
+								{% endfor %}
+							</div>
+							<a href="{% url 'about' %}">View Profile</a>
+						</div>
+					</article>
+					{% empty %}
+					<p class="empty-message">No doctors are available at the moment.</p>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+	</main>
+</body>
+</html>

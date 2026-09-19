@@ -1,4 +1,5 @@
 {% load static %}
+{% static 'media/doctors/dr.jpeg' as doctor_fallback %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +21,9 @@
 			</a>
 			<nav class="nav-links">
 				<a href="{% url 'home' %}">Doctor</a>
+				<a href="{% url 'doctors_list' %}">Doctors</a>
 				<a href="{% url 'specialties' %}" aria-current="page">Specialities</a>
+				<a href="{% url 'treatments' %}">Treatments</a>
 				<a href="{% url 'about' %}">About</a>
 				<a href="{% url 'contact' %}">Contact Us</a>
 			</nav>
@@ -32,8 +35,14 @@
 		<section class="doctor-main">
 			<div class="doctor-main-container">
 				<div class="doctor-main-image">
-					<img src="{% static 'media/doctors/dr.jpeg' %}"
+					{% if doctor.profile_image %}
+					<img src="{% static 'images/dr.jpeg' %}"
+						 alt="{{ doctor.full_name|default:'MedCare doctor' }}"
+						 onerror="this.onerror=null;this.src='{{ doctor_fallback }}';">
+					{% else %}
+					<img src="{{ doctor_fallback }}"
 						 alt="{{ doctor.full_name|default:'MedCare doctor' }}">
+					{% endif %}
 				</div>
 				<div class="doctor-main-content">
 					<span class="section-label">AREAS OF SPECIALISATION</span>
