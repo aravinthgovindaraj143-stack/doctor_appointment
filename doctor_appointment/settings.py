@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 import os
 from pathlib import Path
+from urllib.parse import urlparse
+
+from django.core.exceptions import ImproperlyConfigured
 
 try:
     import dj_database_url
@@ -99,10 +102,32 @@ WSGI_APPLICATION = 'doctor_appointment.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
-if dj_database_url:
+DATABASE_URL = os.getenv('DATABASE_URL', '').strip()
+
+if DATABASE_URL:
+    database_scheme = urlparse(DATABASE_URL).scheme.lower()
+    if database_scheme not in ('postgres', 'postgresql', 'pgsql'):
+        raise ImproperlyConfigured(
+            'DATABASE_URL must be a PostgreSQL URL beginning with '
+            'postgresql:// or postgres://. Replace the current invalid value.'
+        )
+
+if not DEBUG and not DATABASE_URL:
+    raise ImproperlyConfigured(
+        'DATABASE_URL must be set when DEBUG=False. '
+        'Add the PostgreSQL connection URL to your deployment environment.'
+    )
+
+if not DEBUG and not dj_database_url:
+    raise ImproperlyConfigured(
+        'dj-database-url is required for PostgreSQL deployment. '
+        'Install the packages in requirements.txt.'
+    )
+
+if dj_database_url and DATABASE_URL:
     DATABASES = {
         'default': dj_database_url.config(
-            default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
+            env='DATABASE_URL',
             conn_max_age=600,
         )
     }
